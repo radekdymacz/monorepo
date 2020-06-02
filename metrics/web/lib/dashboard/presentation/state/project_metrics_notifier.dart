@@ -213,8 +213,8 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   }
 
   @override
-  void dispose() {
-    _cancelSubscriptions();
+  FutureOr<void> dispose() async {
+    await _cancelSubscriptions();
     super.dispose();
   }
 }
