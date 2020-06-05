@@ -37,7 +37,7 @@ class MetricsButtonCard extends StatelessWidget {
     this.titlePadding,
     this.backgroundColor,
     this.margin,
-    this.elevation,
+    this.elevation = 0.0,
   }) : super(key: key);
 
   @override
@@ -48,26 +48,26 @@ class MetricsButtonCard extends StatelessWidget {
         elevation: elevation,
         margin: margin,
         backgroundColor: backgroundColor,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: iconPadding,
-                child: Icon(
-                  iconData,
-                  size: iconSize,
-                  color: iconColor,
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: iconPadding,
+                  child: Icon(
+                    iconData,
+                    size: iconSize,
+                    color: iconColor,
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: titlePadding,
+                  child: title,
+                ),
+              ],
             ),
-            Expanded(
-              child: Padding(
-                padding: titlePadding,
-                child: title,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

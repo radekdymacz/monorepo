@@ -34,9 +34,9 @@ class MetricsTileCard extends StatelessWidget {
     this.actions,
     this.actionsPadding = EdgeInsets.zero,
     this.backgroundColor,
-    this.margin,
-    this.padding,
-    this.elevation,
+    this.margin = EdgeInsets.zero,
+    this.padding = EdgeInsets.zero,
+    this.elevation = 0.0,
   });
 
   @override
