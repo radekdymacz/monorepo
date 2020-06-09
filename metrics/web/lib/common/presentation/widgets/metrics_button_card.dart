@@ -25,7 +25,7 @@ class MetricsButtonCard extends StatelessWidget {
   /// The card has the [backgroundColor], the [margin] 
   /// and the [elevation] arguments.
   /// 
-  /// The [title], the [iconData], and the [onTap] should not be null.
+  /// The [title], the [iconData], the [backgroundColor] and the [onTap] should not be null.
   const MetricsButtonCard({
     Key key,
     @required this.title,
@@ -35,12 +35,13 @@ class MetricsButtonCard extends StatelessWidget {
     this.iconColor,
     this.iconPadding = EdgeInsets.zero,
     @required this.onTap,
-    this.backgroundColor,
+    @required this.backgroundColor,
     this.margin,
     this.elevation,
   })  : assert(title != null),
         assert(iconData != null),
         assert(onTap != null),
+        assert(backgroundColor != null),
         super(key: key);
 
   @override
