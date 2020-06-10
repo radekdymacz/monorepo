@@ -12,6 +12,8 @@ import 'package:metrics/dashboard/domain/usecases/parameters/project_id_param.da
 import 'package:metrics/dashboard/domain/usecases/receive_project_metrics_updates.dart';
 import 'package:metrics/dashboard/presentation/model/build_result_bar_data.dart';
 import 'package:metrics/dashboard/presentation/model/project_metrics_data.dart';
+import 'package:metrics/dashboard/view_models/project_group_dropdown_view_model.dart';
+import 'package:metrics/project_groups/domain/entities/project_group.dart';
 import 'package:metrics_core/metrics_core.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -31,11 +33,24 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   /// A [Map] that holds all loaded [ProjectMetricsData].
   Map<String, ProjectMetricsData> _projectMetrics;
 
+  /// A [List] that holds all loaded [ProjectGroup].
+  List<ProjectGroup> _projectGroups;
+
+  /// Holds the error message that occurred during loading project groups data.
+  String _projectGroupsErrorMessage;
+
+  List<ProjectGroupDropdownViewModel> _projectGroupsDropdownViewModels;
+
   /// Holds the error message that occurred during loading projects data.
   String _projectsErrorMessage;
 
-  /// Optional filter value that represents a part (or full) project name used to limit the displayed data.
+  /// Optional filter value that represents a part (or full) project name
+  /// used to limit the displayed data.
   String _projectNameFilter;
+
+  /// Optional filter value that represents a project group view model
+  /// used to limit the displayed data.
+  ProjectGroupDropdownViewModel _projectGroupCurrentFilterViewModel;
 
   /// Creates the project metrics store.
   ///
@@ -52,19 +67,50 @@ class ProjectMetricsNotifier extends ChangeNotifier {
     final List<ProjectMetricsData> projectMetricsData =
         _projectMetrics?.values?.toList();
 
-    if (_projectNameFilter == null || projectMetricsData == null) {
-      return projectMetricsData;
+    List<ProjectMetricsData> filteredProjectsMetricsData = projectMetricsData;
+
+    if (filteredProjectsMetricsData == null) {
+      return filteredProjectsMetricsData;
     }
 
-    return projectMetricsData
-        .where((project) => project.projectName
-            .toLowerCase()
-            .contains(_projectNameFilter.toLowerCase()))
-        .toList();
+    if (_projectNameFilter != null) {
+      filteredProjectsMetricsData = projectMetricsData
+          .where(
+            (project) => project.projectName
+                .toLowerCase()
+                .contains(_projectNameFilter.toLowerCase()),
+          )
+          .toList();
+    }
+
+    if (_projectGroupCurrentFilterViewModel != null &&
+        _projectGroupCurrentFilterViewModel.id != null) {
+      filteredProjectsMetricsData = filteredProjectsMetricsData
+          .where(
+            (project) => _projectGroupCurrentFilterViewModel.projectIds
+                .contains(project.projectId),
+          )
+          .toList();
+    }
+
+    return filteredProjectsMetricsData;
   }
+
+  /// Provides a list of all loaded project group.
+  List<ProjectGroup> get projectGroups => _projectGroups;
+
+  List<ProjectGroupDropdownViewModel> get projectGroupsDropdownViewModels =>
+      _projectGroupsDropdownViewModels;
+
+  /// Provides an error description that occurred during loading project groups data.
+  String get projectGroupsErrorMessage => _projectGroupsErrorMessage;
 
   /// Provides an error description that occurred during loading metrics data.
   String get projectsErrorMessage => _projectsErrorMessage;
+
+  /// Provides a filter value that represents a project group id used to limit the displayed data.
+  ProjectGroupDropdownViewModel get projectGroupCurrentFilterViewModel =>
+      _projectGroupCurrentFilterViewModel;
 
   /// Subscribes to a projects name filter.
   void subscribeToProjectsNameFilter() {
@@ -79,6 +125,59 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   /// Adds project metrics filter using [value] provided.
   void filterByProjectName(String value) {
     _projectNameFilterSubject.add(value);
+  }
+
+  void changeCurrentViewModelFilter(ProjectGroupDropdownViewModel viewModel) {
+    _projectGroupCurrentFilterViewModel = viewModel;
+
+    notifyListeners();
+  }
+
+  /// Updates a list of project groups and project groups error message.
+  void updateProjectGroups(
+    List<ProjectGroup> projectGroups,
+    String projectGroupsErrorMessage,
+  ) {
+    if (projectGroups == null) {
+      return;
+    }
+
+    final defaultProjectGroupViewModel = ProjectGroupDropdownViewModel(
+      id: null,
+      name: 'All project groups',
+    );
+
+    _projectGroupsDropdownViewModels = [
+      defaultProjectGroupViewModel,
+      ...projectGroups
+          .map(
+            (projectGroup) => ProjectGroupDropdownViewModel(
+              id: projectGroup.id,
+              name: projectGroup.name,
+              projectIds: projectGroup.projectIds,
+            ),
+          )
+          .toList(),
+    ];
+
+    final newProjectGroupCurrentFilterViewModel =
+        _projectGroupsDropdownViewModels.firstWhere(
+      (element) => _projectGroupCurrentFilterViewModel?.id == element.id,
+      orElse: () => defaultProjectGroupViewModel,
+    );
+
+    _projectGroupCurrentFilterViewModel = newProjectGroupCurrentFilterViewModel;
+
+    _projectGroupsErrorMessage = projectsErrorMessage;
+
+    notifyListeners();
+  }
+
+  void changeProjectGroupCurrentFilterViewModel(
+      ProjectGroupDropdownViewModel viewModel) {
+    _projectGroupCurrentFilterViewModel = viewModel;
+
+    notifyListeners();
   }
 
   /// Updates projects and error message.

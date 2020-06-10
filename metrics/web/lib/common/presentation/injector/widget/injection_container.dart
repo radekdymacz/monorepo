@@ -96,16 +96,6 @@ class _InjectionContainerState extends State<InjectionContainer> {
               );
           },
         ),
-        ChangeNotifierProxyProvider<ProjectsNotifier, ProjectMetricsNotifier>(
-          create: (_) => ProjectMetricsNotifier(_receiveProjectMetricsUpdates),
-          update: (_, projectsNotifier, projectMetricsNotifier) {
-            return projectMetricsNotifier
-              ..updateProjects(
-                projectsNotifier.projects,
-                projectsNotifier.projectsErrorMessage,
-              );
-          },
-        ),
         ChangeNotifierProxyProvider<ProjectsNotifier, ProjectGroupsNotifier>(
           create: (_) => ProjectGroupsNotifier(
             _receiveProjectGroupUpdates,
@@ -114,11 +104,32 @@ class _InjectionContainerState extends State<InjectionContainer> {
             _deleteProjectGroupUseCase,
           ),
           update: (_, projectsNotifier, projectGroupsNotifier) {
-            return projectGroupsNotifier
-              ..updateProjects(
-                projectsNotifier.projects,
-                projectsNotifier.projectsErrorMessage,
-              );
+            projectGroupsNotifier.updateProjects(
+              projectsNotifier.projects,
+              projectsNotifier.projectsErrorMessage,
+            );
+
+            projectGroupsNotifier.subscribeToProjectGroups();
+
+            return projectGroupsNotifier;
+          },
+        ),
+        ChangeNotifierProxyProvider2<ProjectsNotifier, ProjectGroupsNotifier,
+            ProjectMetricsNotifier>(
+          create: (_) => ProjectMetricsNotifier(_receiveProjectMetricsUpdates),
+          update: (_, projectsNotifier, projectGroupsNotifier,
+              projectMetricsNotifier) {
+            projectMetricsNotifier.updateProjects(
+              projectsNotifier.projects,
+              projectsNotifier.projectsErrorMessage,
+            );
+
+            projectMetricsNotifier.updateProjectGroups(
+              projectGroupsNotifier.projectGroups,
+              projectGroupsNotifier.projectGroupsErrorMessage,
+            );
+
+            return projectMetricsNotifier;
           },
         ),
       ],

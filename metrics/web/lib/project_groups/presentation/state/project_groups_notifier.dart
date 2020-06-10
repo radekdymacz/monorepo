@@ -42,7 +42,7 @@ class ProjectGroupsNotifier extends ChangeNotifier {
   StreamSubscription _projectGroupsSubscription;
 
   /// Holds the error message that occurred during loading project groups data.
-  String _errorMessage;
+  String _projectGroupsErrorMessage;
 
   /// Holds the error message that occurred during updating projects data.
   String _projectsErrorMessage;
@@ -50,7 +50,7 @@ class ProjectGroupsNotifier extends ChangeNotifier {
   /// Holds the error message that occurred during the firestore writing operation.
   String _firestoreWriteErrorMessage;
 
-  /// A[List] that holds all loaded [ProjectGroup].
+  /// A [List] that holds all loaded [ProjectGroup].
   List<ProjectGroup> _projectGroups;
 
   /// A[List] that holds view models of all loaded [ProjectGroup].
@@ -82,7 +82,7 @@ class ProjectGroupsNotifier extends ChangeNotifier {
         );
 
   /// Provides an error description that occurred during loading project groups data.
-  String get errorMessage => _errorMessage;
+  String get projectGroupsErrorMessage => _projectGroupsErrorMessage;
 
   /// Provides an error description that occurred during loading projects data.
   String get projectsErrorMessage => _projectsErrorMessage;
@@ -190,7 +190,7 @@ class ProjectGroupsNotifier extends ChangeNotifier {
   /// Subscribes to project groups.
   Future<void> subscribeToProjectGroups() async {
     final projectGroupsStream = _receiveProjectGroupUpdates();
-    _errorMessage = null;
+    _projectGroupsErrorMessage = null;
     await _projectGroupsSubscription?.cancel();
 
     _projectGroupsSubscription = projectGroupsStream.listen(
@@ -266,13 +266,17 @@ class ProjectGroupsNotifier extends ChangeNotifier {
   void updateProjects(List<Project> projects, String projectsErrorMessage) {
     final projectIds =
         _activeProjectGroupDialogViewModel?.selectedProjectIds ?? [];
-    _projectSelectorViewModels = projects
-        .map((project) => ProjectSelectorViewModel(
-              id: project.id,
-              name: project.name,
-              isChecked: projectIds.contains(project.id),
-            ))
-        .toList();
+
+    if (projects != null) {
+      _projectSelectorViewModels = projects
+          .map((project) => ProjectSelectorViewModel(
+                id: project.id,
+                name: project.name,
+                isChecked: projectIds.contains(project.id),
+              ))
+          .toList();
+    }
+
     _projectsErrorMessage = projectsErrorMessage;
     notifyListeners();
   }
@@ -299,14 +303,14 @@ class ProjectGroupsNotifier extends ChangeNotifier {
     _projectGroups = null;
   }
 
-  /// Saves the error [String] representation to [_errorMessage].
+  /// Saves the error [String] representation to [_projectGroupsErrorMessage].
   void _errorHandler(error) {
     if (error is PlatformException) {
-      _errorMessage = error.message;
+      _projectGroupsErrorMessage = error.message;
       return notifyListeners();
     }
 
-    _errorMessage = CommonStrings.unknownErrorMessage;
+    _projectGroupsErrorMessage = CommonStrings.unknownErrorMessage;
     notifyListeners();
   }
 
