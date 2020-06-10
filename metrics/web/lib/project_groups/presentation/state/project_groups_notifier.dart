@@ -187,6 +187,15 @@ class ProjectGroupsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Updates project groups subscription, based on the [isLoggedIn] user status.
+  Future<void> updateProjectsSubscription({bool isLoggedIn}) async {
+    if (isLoggedIn) {
+      await subscribeToProjectGroups();
+    } else {
+      await unsubscribeFromProjectGroups();
+    }
+  }
+
   /// Subscribes to project groups.
   Future<void> subscribeToProjectGroups() async {
     final projectGroupsStream = _receiveProjectGroupUpdates();

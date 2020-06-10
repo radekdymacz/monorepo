@@ -96,20 +96,22 @@ class _InjectionContainerState extends State<InjectionContainer> {
               );
           },
         ),
-        ChangeNotifierProxyProvider<ProjectsNotifier, ProjectGroupsNotifier>(
+        ChangeNotifierProxyProvider2<ProjectsNotifier, AuthNotifier, ProjectGroupsNotifier>(
           create: (_) => ProjectGroupsNotifier(
             _receiveProjectGroupUpdates,
             _addProjectGroupUseCase,
             _updateProjectGroupUseCase,
             _deleteProjectGroupUseCase,
           ),
-          update: (_, projectsNotifier, projectGroupsNotifier) {
+          update: (_, projectsNotifier, authNotifier, projectGroupsNotifier) {
             projectGroupsNotifier.updateProjects(
               projectsNotifier.projects,
               projectsNotifier.projectsErrorMessage,
             );
 
-            projectGroupsNotifier.subscribeToProjectGroups();
+            projectGroupsNotifier.updateProjectsSubscription(
+              isLoggedIn: authNotifier.isLoggedIn,
+            );
 
             return projectGroupsNotifier;
           },
