@@ -15,7 +15,7 @@ class ProjectGroupsDropdown extends StatelessWidget {
         if (viewModels == null || viewModels.isEmpty) return Container();
 
         return DropdownButton<ProjectGroupDropdownViewModel>(
-          value: projectMetricsNotifier.projectGroupCurrentFilterViewModel,
+          value: projectMetricsNotifier.projectGroupFilterViewModel,
           items: _generateDropdownMenuItems(viewModels),
           onChanged: projectMetricsNotifier.changeCurrentViewModelFilter,
         );

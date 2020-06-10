@@ -50,7 +50,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
 
   /// Optional filter value that represents a project group view model
   /// used to limit the displayed data.
-  ProjectGroupDropdownViewModel _projectGroupCurrentFilterViewModel;
+  ProjectGroupDropdownViewModel _projectGroupFilterViewModel;
 
   /// Creates the project metrics store.
   ///
@@ -64,36 +64,51 @@ class ProjectMetricsNotifier extends ChangeNotifier {
 
   /// Provides a list of project metrics, filtered by the project name filter.
   List<ProjectMetricsData> get projectsMetrics {
-    final List<ProjectMetricsData> projectMetricsData =
+    List<ProjectMetricsData> projectMetricsData =
         _projectMetrics?.values?.toList();
 
-    List<ProjectMetricsData> filteredProjectsMetricsData = projectMetricsData;
-
-    if (filteredProjectsMetricsData == null) {
-      return filteredProjectsMetricsData;
+    if (projectMetricsData == null) {
+      return projectMetricsData;
     }
 
     if (_projectNameFilter != null) {
-      filteredProjectsMetricsData = projectMetricsData
-          .where(
-            (project) => project.projectName
-                .toLowerCase()
-                .contains(_projectNameFilter.toLowerCase()),
-          )
-          .toList();
+      projectMetricsData = _applyProjectNameFilter(projectMetricsData);
     }
 
-    if (_projectGroupCurrentFilterViewModel != null &&
-        _projectGroupCurrentFilterViewModel.id != null) {
-      filteredProjectsMetricsData = filteredProjectsMetricsData
-          .where(
-            (project) => _projectGroupCurrentFilterViewModel.projectIds
-                .contains(project.projectId),
-          )
-          .toList();
+    if (_projectGroupFilterViewModel != null) {
+      projectMetricsData = _applyProjectGroupFilter(projectMetricsData);
     }
 
-    return filteredProjectsMetricsData;
+    return projectMetricsData;
+  }
+
+  /// Applies project name filter to the list of [ProjectMetricsData].
+  List<ProjectMetricsData> _applyProjectNameFilter(
+    List<ProjectMetricsData> projectMetricsData,
+  ) {
+    return projectMetricsData
+        .where(
+          (project) => project.projectName
+              .toLowerCase()
+              .contains(_projectNameFilter.toLowerCase()),
+        )
+        .toList();
+  }
+
+  /// Applies project group filter to the list of [ProjectMetricsData].
+  List<ProjectMetricsData> _applyProjectGroupFilter(
+    List<ProjectMetricsData> projectMetricsData,
+  ) {
+    return projectMetricsData.where(
+      (project) {
+        if (_projectGroupFilterViewModel.id != null) {
+          return _projectGroupFilterViewModel.projectIds
+              .contains(project.projectId);
+        }
+
+        return true;
+      },
+    ).toList();
   }
 
   /// Provides a list of all loaded project group.
@@ -109,8 +124,8 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   String get projectsErrorMessage => _projectsErrorMessage;
 
   /// Provides a filter value that represents a project group id used to limit the displayed data.
-  ProjectGroupDropdownViewModel get projectGroupCurrentFilterViewModel =>
-      _projectGroupCurrentFilterViewModel;
+  ProjectGroupDropdownViewModel get projectGroupFilterViewModel =>
+      _projectGroupFilterViewModel;
 
   /// Subscribes to a projects name filter.
   void subscribeToProjectsNameFilter() {
@@ -128,7 +143,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   }
 
   void changeCurrentViewModelFilter(ProjectGroupDropdownViewModel viewModel) {
-    _projectGroupCurrentFilterViewModel = viewModel;
+    _projectGroupFilterViewModel = viewModel;
 
     notifyListeners();
   }
@@ -160,22 +175,22 @@ class ProjectMetricsNotifier extends ChangeNotifier {
           .toList(),
     ];
 
-    final newProjectGroupCurrentFilterViewModel =
+    final newProjectGrentFilterViewModel =
         _projectGroupsDropdownViewModels.firstWhere(
-      (element) => _projectGroupCurrentFilterViewModel?.id == element.id,
+      (element) => _projectGroupFilterViewModel?.id == element.id,
       orElse: () => defaultProjectGroupViewModel,
     );
 
-    _projectGroupCurrentFilterViewModel = newProjectGroupCurrentFilterViewModel;
+    _projectGroupFilterViewModel = newProjectGrentFilterViewModel;
 
     _projectGroupsErrorMessage = projectsErrorMessage;
 
     notifyListeners();
   }
 
-  void changeProjectGroupCurrentFilterViewModel(
+  void changeProjecurrentFilterViewModel(
       ProjectGroupDropdownViewModel viewModel) {
-    _projectGroupCurrentFilterViewModel = viewModel;
+    _projectGroupFilterViewModel = viewModel;
 
     notifyListeners();
   }
