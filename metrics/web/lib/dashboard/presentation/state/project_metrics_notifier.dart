@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:metrics/common/presentation/constants/common_constants.dart';
 import 'package:metrics/dashboard/domain/entities/collections/date_time_set.dart';
 import 'package:metrics/dashboard/domain/entities/metrics/build_result_metric.dart';
 import 'package:metrics/dashboard/domain/entities/metrics/dashboard_project_metrics.dart';
@@ -12,6 +13,7 @@ import 'package:metrics/dashboard/domain/usecases/receive_project_metrics_update
 import 'package:metrics/dashboard/presentation/model/build_result_bar_data.dart';
 import 'package:metrics/dashboard/presentation/model/project_metrics_data.dart';
 import 'package:metrics_core/metrics_core.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// The [ChangeNotifier] that holds the projects metrics state.
 ///
@@ -22,6 +24,9 @@ class ProjectMetricsNotifier extends ChangeNotifier {
 
   /// A [Map] that holds all created [StreamSubscription].
   final Map<String, StreamSubscription> _buildMetricsSubscriptions = {};
+
+  /// A [PublishSubject] that provides the ability to filter projects by the name.
+  final _projectNameFilterSubject = PublishSubject<String>();
 
   /// A [Map] that holds all loaded [ProjectMetricsData].
   Map<String, ProjectMetricsData> _projectMetrics;
@@ -38,7 +43,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   ProjectMetricsNotifier(
     this._receiveProjectMetricsUpdates,
   ) : assert(
-              _receiveProjectMetricsUpdates != null,
+          _receiveProjectMetricsUpdates != null,
           'The use case should not be null',
         );
 
@@ -61,16 +66,25 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   /// Provides an error description that occurred during loading metrics data.
   String get errorMessage => _errorMessage;
 
+  /// Subscribes to a projects name filter.
+  void subscribeToProjectsNameFilter() {
+    _projectNameFilterSubject
+        .debounceTime(const Duration(milliseconds: CommonConstants.debounce))
+        .listen((value) {
+      _projectNameFilter = value;
+      notifyListeners();
+    });
+  }
+
   /// Adds project metrics filter using [value] provided.
   void filterByProjectName(String value) {
-    _projectNameFilter = value;
-    notifyListeners();
+    _projectNameFilterSubject.add(value);
   }
 
   /// Updates projects and error message.
   void updateProjects(List<Project> newProjects, String errorMessage) {
     _errorMessage = errorMessage;
-    
+
     if (newProjects == null) return;
 
     if (newProjects.isEmpty) {
@@ -215,6 +229,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   @override
   FutureOr<void> dispose() async {
     await _cancelSubscriptions();
+    await _projectNameFilterSubject.close();
     super.dispose();
   }
 }
