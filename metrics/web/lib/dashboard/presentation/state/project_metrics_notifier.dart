@@ -31,8 +31,8 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   /// A [Map] that holds all loaded [ProjectMetricsData].
   Map<String, ProjectMetricsData> _projectMetrics;
 
-  /// Holds the error message that occurred during loading data.
-  String _errorMessage;
+  /// Holds the error message that occurred during loading projects data.
+  String _projectsErrorMessage;
 
   /// Optional filter value that represents a part (or full) project name used to limit the displayed data.
   String _projectNameFilter;
@@ -64,7 +64,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   }
 
   /// Provides an error description that occurred during loading metrics data.
-  String get errorMessage => _errorMessage;
+  String get projectsErrorMessage => _projectsErrorMessage;
 
   /// Subscribes to a projects name filter.
   void subscribeToProjectsNameFilter() {
@@ -83,7 +83,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
 
   /// Updates projects and error message.
   void updateProjects(List<Project> newProjects, String errorMessage) {
-    _errorMessage = errorMessage;
+    _projectsErrorMessage = errorMessage;
 
     if (newProjects == null) return;
 
@@ -221,7 +221,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   /// Saves the error [String] representation to [_errorMessage].
   void _errorHandler(error) {
     if (error is PlatformException) {
-      _errorMessage = error.message;
+      _projectsErrorMessage = error.message;
       notifyListeners();
     }
   }
