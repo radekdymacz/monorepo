@@ -71,6 +71,97 @@ void main() {
     }
 
     test(
+      "throws an AssertionError if receive project metric updates use case is null",
+      () {
+        expect(
+          () => ProjectMetricsNotifier(null),
+          MatcherUtil.throwsAssertionError,
+        );
+      },
+    );
+
+    test("loads the coverage data", () async {
+      final expectedProjectCoverage = expectedProjectMetrics.coverage;
+
+      final projectMetrics = projectMetricsNotifier.projectsMetrics.first;
+      final projectCoverage = projectMetrics.coverage;
+
+      expect(projectCoverage, expectedProjectCoverage);
+    });
+
+    test("loads the build number metrics", () async {
+      final expectedBuildNumberMetrics =
+          expectedProjectMetrics.buildNumberMetrics;
+
+      final firstProjectMetrics = projectMetricsNotifier.projectsMetrics.first;
+
+      expect(
+        firstProjectMetrics.buildNumberMetric,
+        expectedBuildNumberMetrics.numberOfBuilds,
+      );
+    });
+
+    test("loads the performance metrics", () async {
+      final expectedPerformanceMetrics =
+          expectedProjectMetrics.performanceMetrics;
+
+      final firstProjectMetrics = projectMetricsNotifier.projectsMetrics.first;
+      final performanceMetrics = firstProjectMetrics.performanceMetrics;
+
+      expect(
+        performanceMetrics.length,
+        expectedPerformanceMetrics.buildsPerformance.length,
+      );
+
+      expect(
+        firstProjectMetrics.averageBuildDurationInMinutes,
+        expectedPerformanceMetrics.averageBuildDuration.inMinutes,
+      );
+
+      final firstBuildPerformance =
+          expectedPerformanceMetrics.buildsPerformance.first;
+      final performancePoint = performanceMetrics.first;
+
+      expect(
+        performancePoint.x,
+        firstBuildPerformance.date.millisecondsSinceEpoch,
+      );
+      expect(
+        performancePoint.y,
+        firstBuildPerformance.duration.inMilliseconds,
+      );
+    });
+
+    test("loads the build result metrics", () async {
+      final expectedBuildResults =
+          expectedProjectMetrics.buildResultMetrics.buildResults;
+
+      final firstProjectMetrics = projectMetricsNotifier.projectsMetrics.first;
+      final buildResultMetrics = firstProjectMetrics.buildResultMetrics;
+
+      expect(
+        buildResultMetrics.length,
+        expectedBuildResults.length,
+      );
+
+      final expectedBuildResult = expectedBuildResults.first;
+      final firstBuildResultMetric = buildResultMetrics.first;
+
+      expect(
+        firstBuildResultMetric.value,
+        expectedBuildResult.duration.inMilliseconds,
+      );
+      expect(
+        firstBuildResultMetric.buildStatus,
+        expectedBuildResult.buildStatus,
+      );
+      expect(
+        firstBuildResultMetric.url,
+        expectedBuildResult.url,
+      );
+    });
+
+    test(
       ".updateProjectGroups() maps project groups into dropdown view models",
       () {
         expect(projectMetricsNotifier.projectGroupsDropdownViewModels, isNull);
@@ -190,16 +281,6 @@ void main() {
     );
 
     test(
-      "throws an AssertionError if receive project metric updates use case is null",
-      () {
-        expect(
-          () => ProjectMetricsNotifier(null),
-          MatcherUtil.throwsAssertionError,
-        );
-      },
-    );
-
-    test(
       "creates ProjectMetricsData with empty points from empty DashboardProjectMetrics",
       () async {
         final receiveEmptyMetrics = _ReceiveProjectMetricsUpdatesStub(
@@ -265,87 +346,6 @@ void main() {
       },
     );
 
-    test("loads the coverage data", () async {
-      final expectedProjectCoverage = expectedProjectMetrics.coverage;
-
-      final projectMetrics = projectMetricsNotifier.projectsMetrics.first;
-      final projectCoverage = projectMetrics.coverage;
-
-      expect(projectCoverage, expectedProjectCoverage);
-    });
-
-    test("loads the build number metrics", () async {
-      final expectedBuildNumberMetrics =
-          expectedProjectMetrics.buildNumberMetrics;
-
-      final firstProjectMetrics = projectMetricsNotifier.projectsMetrics.first;
-
-      expect(
-        firstProjectMetrics.buildNumberMetric,
-        expectedBuildNumberMetrics.numberOfBuilds,
-      );
-    });
-
-    test("loads the performance metrics", () async {
-      final expectedPerformanceMetrics =
-          expectedProjectMetrics.performanceMetrics;
-
-      final firstProjectMetrics = projectMetricsNotifier.projectsMetrics.first;
-      final performanceMetrics = firstProjectMetrics.performanceMetrics;
-
-      expect(
-        performanceMetrics.length,
-        expectedPerformanceMetrics.buildsPerformance.length,
-      );
-
-      expect(
-        firstProjectMetrics.averageBuildDurationInMinutes,
-        expectedPerformanceMetrics.averageBuildDuration.inMinutes,
-      );
-
-      final firstBuildPerformance =
-          expectedPerformanceMetrics.buildsPerformance.first;
-      final performancePoint = performanceMetrics.first;
-
-      expect(
-        performancePoint.x,
-        firstBuildPerformance.date.millisecondsSinceEpoch,
-      );
-      expect(
-        performancePoint.y,
-        firstBuildPerformance.duration.inMilliseconds,
-      );
-    });
-
-    test("loads the build result metrics", () async {
-      final expectedBuildResults =
-          expectedProjectMetrics.buildResultMetrics.buildResults;
-
-      final firstProjectMetrics = projectMetricsNotifier.projectsMetrics.first;
-      final buildResultMetrics = firstProjectMetrics.buildResultMetrics;
-
-      expect(
-        buildResultMetrics.length,
-        expectedBuildResults.length,
-      );
-
-      final expectedBuildResult = expectedBuildResults.first;
-      final firstBuildResultMetric = buildResultMetrics.first;
-
-      expect(
-        firstBuildResultMetric.value,
-        expectedBuildResult.duration.inMilliseconds,
-      );
-      expect(
-        firstBuildResultMetric.buildStatus,
-        expectedBuildResult.buildStatus,
-      );
-      expect(
-        firstBuildResultMetric.url,
-        expectedBuildResult.url,
-      );
-    });
-
     test(
       "deletes the ProjectMetricsData if the project was deleted on server",
       () async {
@@ -398,6 +398,15 @@ void main() {
     test(
         ".filterByProjectName() filters list of the project metrics according to the given value",
         () async {
+      final projectMetricsNotifier = ProjectMetricsNotifier(
+        receiveProjectMetricsUpdates,
+      );
+
+      projectMetricsNotifier.updateProjects(
+        projects,
+        errorMessage,
+      );
+
       final expectedProjectMetrics = [
         projectMetricsNotifier.projectsMetrics.last
       ];
@@ -413,12 +422,15 @@ void main() {
 
       final filteredProjectMetrics = projectMetricsNotifier.projectsMetrics;
 
+      expect(filteredProjectMetrics.length, equals(1));
+
       expect(
-        filteredProjectMetrics,
-        equals(expectedProjectMetrics),
+        filteredProjectMetrics.first.projectId,
+        equals(expectedProjectMetrics.first.projectId),
       );
 
       await _resetProjectsFilters();
+      projectMetricsNotifier.dispose();
     });
 
     test(
