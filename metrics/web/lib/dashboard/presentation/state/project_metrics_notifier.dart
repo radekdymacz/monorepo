@@ -41,8 +41,8 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   String _projectGroupsErrorMessage;
 
   List<ProjectGroupDropdownViewModel> _projectGroupsDropdownViewModels;
-  
-  /// A dummy project group view model, that can be used in a filter 
+
+  /// A dummy project group view model, that can be used in a filter
   /// to show all projects if it is selected.
   final ProjectGroupDropdownViewModel _defaultProjectGroupViewModel =
       ProjectGroupDropdownViewModel(
@@ -152,7 +152,10 @@ class ProjectMetricsNotifier extends ChangeNotifier {
     _projectNameFilterSubject.add(value);
   }
 
-  void changeCurrentViewModelFilter(ProjectGroupDropdownViewModel viewModel) {
+  /// Changes a project group name filter.
+  void changeProjectGroupFilterViewModel(
+    ProjectGroupDropdownViewModel viewModel,
+  ) {
     _projectGroupFilterViewModel = viewModel;
 
     notifyListeners();
@@ -187,7 +190,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   }
 
   /// Updates a project group filter.
-  /// 
+  ///
   /// If project groups were updated, the current project group filter view model
   /// needs to be updated too, to get the last changes.
   void _updateProjectGroupFilterViewModel() {
@@ -198,13 +201,6 @@ class ProjectMetricsNotifier extends ChangeNotifier {
     );
 
     _projectGroupFilterViewModel = newProjectGroupFilterViewModel;
-  }
-
-  void changeProjecurrentFilterViewModel(
-      ProjectGroupDropdownViewModel viewModel) {
-    _projectGroupFilterViewModel = viewModel;
-
-    notifyListeners();
   }
 
   /// Updates projects and error message.

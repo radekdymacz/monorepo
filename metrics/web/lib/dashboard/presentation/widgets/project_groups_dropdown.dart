@@ -17,7 +17,7 @@ class ProjectGroupsDropdown extends StatelessWidget {
         return DropdownButton<ProjectGroupDropdownViewModel>(
           value: projectMetricsNotifier.projectGroupFilterViewModel,
           items: _generateDropdownMenuItems(viewModels),
-          onChanged: projectMetricsNotifier.changeCurrentViewModelFilter,
+          onChanged: projectMetricsNotifier.changeProjectGroupFilterViewModel,
         );
       },
     );
