@@ -30,8 +30,8 @@ void main() {
       Project(id: 'id2', name: 'name2'),
     ];
     const List<ProjectGroup> projectGroups = [
-      ProjectGroup(id: '1', name: 'name', projectIds: []),
-      ProjectGroup(id: '2', name: 'name2', projectIds: []),
+      ProjectGroup(id: '1', name: 'name', projectIds: ['id']),
+      ProjectGroup(id: '2', name: 'name2', projectIds: ['id', 'id2']),
     ];
     final projectGroupDropdownViewModel = ProjectGroupDropdownViewModel(
       id: 'id',
@@ -394,6 +394,26 @@ void main() {
         metricsNotifier.updateProjects([], errorMessage);
       },
     );
+
+    test(
+        ".changeProjectGroupFilterViewModel() filters a list of project metrics according to the given value",
+        () async {
+      final expectedProjectId = projects.first.id;
+      final filterViewModel = ProjectGroupDropdownViewModel(
+        id: '1',
+        name: 'name',
+        projectIds: [expectedProjectId],
+      );
+
+      projectMetricsNotifier.updateProjects(projects, errorMessage);
+
+      projectMetricsNotifier.changeProjectGroupFilterViewModel(filterViewModel);
+
+      final filteredProjectMetrics = projectMetricsNotifier.projectsMetrics;
+
+      expect(filteredProjectMetrics.length, equals(1));
+      expect(filteredProjectMetrics.first.projectId, equals(expectedProjectId));
+    });
 
     test(
         ".filterByProjectName() filters list of the project metrics according to the given value",
