@@ -106,6 +106,40 @@ void main() {
     );
 
     test(
+      ".updateProjectsSubscription() subscribes to project groups if a user is logged in",
+      () async {
+        final projectGroupsController = StreamController<List<ProjectGroup>>();
+
+        when(receiveProjectGroupUpdates()).thenAnswer(
+          (_) => projectGroupsController.stream,
+        );
+
+        await projectGroupsNotifier.updateProjectsSubscription(
+          isLoggedIn: true,
+        );
+
+        expect(projectGroupsController.hasListener, isTrue);
+      },
+    );
+
+    test(
+      ".updateProjectsSubscription() unsubscribes from project groups if a user is not logged in",
+      () async {
+        final projectGroupsController = StreamController<List<ProjectGroup>>();
+
+        when(receiveProjectGroupUpdates()).thenAnswer(
+          (_) => projectGroupsController.stream,
+        );
+
+        await projectGroupsNotifier.updateProjectsSubscription(
+          isLoggedIn: false,
+        );
+
+        expect(projectGroupsController.hasListener, isFalse);
+      },
+    );
+
+    test(
       ".subscribeToProjectGroups() completes normally if a receiveProjectGroupUpdates is null",
       () async {
         when(receiveProjectGroupUpdates()).thenAnswer(
@@ -117,8 +151,7 @@ void main() {
           completes,
         );
 
-        final projectGroups =
-            projectGroupsNotifier.projectGroups;
+        final projectGroups = projectGroupsNotifier.projectGroups;
 
         expect(projectGroups, isNull);
       },
