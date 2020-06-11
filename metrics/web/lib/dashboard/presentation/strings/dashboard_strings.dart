@@ -8,6 +8,7 @@ class DashboardStrings {
   static const String noConfiguredProjects = "No configured projects";
   static const String noDataPlaceholder = "-";
   static const String perWeek = '/ week';
+  static const String allProjectGroups = 'All project groups';
 
   static String minutes(int minutes) => "${minutes}M";
 }

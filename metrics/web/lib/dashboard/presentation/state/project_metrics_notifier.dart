@@ -12,6 +12,7 @@ import 'package:metrics/dashboard/domain/usecases/parameters/project_id_param.da
 import 'package:metrics/dashboard/domain/usecases/receive_project_metrics_updates.dart';
 import 'package:metrics/dashboard/presentation/model/build_result_bar_data.dart';
 import 'package:metrics/dashboard/presentation/model/project_metrics_data.dart';
+import 'package:metrics/dashboard/presentation/strings/dashboard_strings.dart';
 import 'package:metrics/dashboard/view_models/project_group_dropdown_view_model.dart';
 import 'package:metrics/project_groups/domain/entities/project_group.dart';
 import 'package:metrics_core/metrics_core.dart';
@@ -40,6 +41,14 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   String _projectGroupsErrorMessage;
 
   List<ProjectGroupDropdownViewModel> _projectGroupsDropdownViewModels;
+  
+  /// A dummy project group view model, that can be used in a filter 
+  /// to show all projects if it is selected.
+  final ProjectGroupDropdownViewModel _defaultProjectGroupViewModel =
+      ProjectGroupDropdownViewModel(
+    id: null,
+    name: DashboardStrings.allProjectGroups,
+  );
 
   /// Holds the error message that occurred during loading projects data.
   String _projectsErrorMessage;
@@ -114,6 +123,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   /// Provides a list of all loaded project group.
   List<ProjectGroup> get projectGroups => _projectGroups;
 
+  ///
   List<ProjectGroupDropdownViewModel> get projectGroupsDropdownViewModels =>
       _projectGroupsDropdownViewModels;
 
@@ -157,35 +167,37 @@ class ProjectMetricsNotifier extends ChangeNotifier {
       return;
     }
 
-    final defaultProjectGroupViewModel = ProjectGroupDropdownViewModel(
-      id: null,
-      name: 'All project groups',
+    _projectGroupsDropdownViewModels = [_defaultProjectGroupViewModel];
+
+    _projectGroupsDropdownViewModels.addAll(
+      projectGroups.map(
+        (projectGroup) => ProjectGroupDropdownViewModel(
+          id: projectGroup.id,
+          name: projectGroup.name,
+          projectIds: projectGroup.projectIds,
+        ),
+      ),
     );
-
-    _projectGroupsDropdownViewModels = [
-      defaultProjectGroupViewModel,
-      ...projectGroups
-          .map(
-            (projectGroup) => ProjectGroupDropdownViewModel(
-              id: projectGroup.id,
-              name: projectGroup.name,
-              projectIds: projectGroup.projectIds,
-            ),
-          )
-          .toList(),
-    ];
-
-    final newProjectGrentFilterViewModel =
-        _projectGroupsDropdownViewModels.firstWhere(
-      (element) => _projectGroupFilterViewModel?.id == element.id,
-      orElse: () => defaultProjectGroupViewModel,
-    );
-
-    _projectGroupFilterViewModel = newProjectGrentFilterViewModel;
 
     _projectGroupsErrorMessage = projectsErrorMessage;
 
+    _updateProjectGroupFilterViewModel();
+
     notifyListeners();
+  }
+
+  /// Updates a project group filter.
+  /// 
+  /// If project groups were updated, the current project group filter view model
+  /// needs to be updated too, to get the last changes.
+  void _updateProjectGroupFilterViewModel() {
+    final newProjectGroupFilterViewModel =
+        _projectGroupsDropdownViewModels.firstWhere(
+      (element) => _projectGroupFilterViewModel?.id == element.id,
+      orElse: () => _defaultProjectGroupViewModel,
+    );
+
+    _projectGroupFilterViewModel = newProjectGroupFilterViewModel;
   }
 
   void changeProjecurrentFilterViewModel(
