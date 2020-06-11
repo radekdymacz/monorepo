@@ -37,11 +37,16 @@ class _DashboardPageState extends State<DashboardPage> {
               child: Row(
                 children: <Widget>[
                   Expanded(
+                    flex: 3,
                     child: ProjectSearchInput(
                       onChanged: _projectMetricsNotifier.filterByProjectName,
                     ),
                   ),
-                  const ProjectGroupsDropdown(),
+                  const SizedBox(width: 80.0),
+                  const Expanded(
+                    flex: 1,
+                    child: ProjectGroupsDropdown(),
+                  ),
                 ],
               ),
             ),

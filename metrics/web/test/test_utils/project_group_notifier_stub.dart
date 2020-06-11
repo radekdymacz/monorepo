@@ -94,9 +94,6 @@ class ProjectGroupsNotifierStub extends ChangeNotifier
   Future<void> unsubscribeFromProjectGroups() async {}
 
   @override
-  String get errorMessage => null;
-
-  @override
   void filterByProjectName(String value) {}
 
   @override
@@ -107,4 +104,10 @@ class ProjectGroupsNotifierStub extends ChangeNotifier
 
   @override
   void subscribeToProjectsNameFilter() {}
+
+  @override
+  String get projectGroupsErrorMessage => null;
+
+  @override
+  Future<void> updateProjectsSubscription({bool isLoggedIn}) async {}
 }

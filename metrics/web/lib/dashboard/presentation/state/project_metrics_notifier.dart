@@ -44,7 +44,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
 
   /// A dummy project group view model, that can be used in a filter
   /// to show all projects if it is selected.
-  final ProjectGroupDropdownViewModel _defaultProjectGroupViewModel =
+  final ProjectGroupDropdownViewModel _defaultProjectGroupDropdownViewModel =
       ProjectGroupDropdownViewModel(
     id: null,
     name: DashboardStrings.allProjectGroups,
@@ -123,7 +123,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   /// Provides a list of all loaded project group.
   List<ProjectGroup> get projectGroups => _projectGroups;
 
-  ///
+  /// A list of view models, that used in a dropdown list filter.
   List<ProjectGroupDropdownViewModel> get projectGroupsDropdownViewModels =>
       _projectGroupsDropdownViewModels;
 
@@ -170,7 +170,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
       return;
     }
 
-    _projectGroupsDropdownViewModels = [_defaultProjectGroupViewModel];
+    _projectGroupsDropdownViewModels = [_defaultProjectGroupDropdownViewModel];
 
     _projectGroupsDropdownViewModels.addAll(
       projectGroups.map(
@@ -182,7 +182,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
       ),
     );
 
-    _projectGroupsErrorMessage = projectsErrorMessage;
+    _projectGroupsErrorMessage = projectGroupsErrorMessage;
 
     _updateProjectGroupFilterViewModel();
 
@@ -197,7 +197,7 @@ class ProjectMetricsNotifier extends ChangeNotifier {
     final newProjectGroupFilterViewModel =
         _projectGroupsDropdownViewModels.firstWhere(
       (element) => _projectGroupFilterViewModel?.id == element.id,
-      orElse: () => _defaultProjectGroupViewModel,
+      orElse: () => _defaultProjectGroupDropdownViewModel,
     );
 
     _projectGroupFilterViewModel = newProjectGroupFilterViewModel;

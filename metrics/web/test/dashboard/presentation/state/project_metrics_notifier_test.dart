@@ -12,6 +12,9 @@ import 'package:metrics/dashboard/domain/usecases/parameters/project_id_param.da
 import 'package:metrics/dashboard/domain/usecases/receive_project_metrics_updates.dart';
 import 'package:metrics/dashboard/presentation/model/project_metrics_data.dart';
 import 'package:metrics/dashboard/presentation/state/project_metrics_notifier.dart';
+import 'package:metrics/dashboard/presentation/strings/dashboard_strings.dart';
+import 'package:metrics/dashboard/view_models/project_group_dropdown_view_model.dart';
+import 'package:metrics/project_groups/domain/entities/project_group.dart';
 import 'package:metrics_core/metrics_core.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
@@ -26,6 +29,15 @@ void main() {
       Project(id: 'id', name: 'name'),
       Project(id: 'id2', name: 'name2'),
     ];
+    const List<ProjectGroup> projectGroups = [
+      ProjectGroup(id: '1', name: 'name', projectIds: []),
+      ProjectGroup(id: '2', name: 'name2', projectIds: []),
+    ];
+    final projectGroupDropdownViewModel = ProjectGroupDropdownViewModel(
+      id: 'id',
+      name: 'name',
+    );
+
     const String errorMessage = null;
 
     final receiveProjectMetricsUpdates = _ReceiveProjectMetricsUpdatesStub();
@@ -57,6 +69,125 @@ void main() {
         const Duration(milliseconds: CommonConstants.debounce + 100),
       );
     }
+
+    test(
+      ".updateProjectGroups() maps project groups into dropdown view models",
+      () {
+        expect(projectMetricsNotifier.projectGroupsDropdownViewModels, isNull);
+
+        projectMetricsNotifier.updateProjectGroups(projectGroups, null);
+
+        // We add 1 to the expected length, because update project groups method
+        // adds a default dropdown view model to the list of mapped dropdown view models.
+        expect(
+          projectMetricsNotifier.projectGroupsDropdownViewModels.length,
+          equals(projectGroups.length + 1),
+        );
+      },
+    );
+
+    test(
+      ".updateProjectGroups() does not map project groups into dropdown view models if project groups are null",
+      () {
+        final metricsNotifier = ProjectMetricsNotifier(
+          receiveProjectMetricsUpdates,
+        );
+
+        metricsNotifier.updateProjectGroups(null, null);
+
+        expect(metricsNotifier.projectGroupsDropdownViewModels, isNull);
+      },
+    );
+
+    test(
+      ".updateProjectGroups() adds a default dropdown view model to the start of the view models list",
+      () {
+        projectMetricsNotifier.updateProjectGroups(projectGroups, null);
+
+        final defaultDropdownViewModel =
+            projectMetricsNotifier.projectGroupsDropdownViewModels.first;
+
+        expect(defaultDropdownViewModel.id, isNull);
+        expect(
+          defaultDropdownViewModel.name,
+          DashboardStrings.allProjectGroups,
+        );
+      },
+    );
+
+    test(
+      ".updateProjectGroups() updates a project group error message",
+      () async {
+        const errorMessage = 'error';
+        projectMetricsNotifier.updateProjectGroups(projectGroups, errorMessage);
+
+        expect(
+          projectMetricsNotifier.projectGroupsErrorMessage,
+          equals(errorMessage),
+        );
+      },
+    );
+
+    test(
+      ".updateProjectGroups() does not change the project group filter if a project groups list is not changed",
+      () async {
+        final projectGroup = projectGroups.first;
+
+        projectMetricsNotifier.changeProjectGroupFilterViewModel(
+          ProjectGroupDropdownViewModel(
+            id: projectGroup.id,
+            name: projectGroup.name,
+          ),
+        );
+        projectMetricsNotifier.updateProjectGroups(projectGroups, null);
+
+        expect(
+          projectMetricsNotifier.projectGroupFilterViewModel.id,
+          equals(projectGroup.id),
+        );
+      },
+    );
+
+    test(
+      ".updateProjectGroups() sets the project group filter to the default if project groups does not contain the filter view model",
+      () async {
+        projectMetricsNotifier.changeProjectGroupFilterViewModel(
+          projectGroupDropdownViewModel,
+        );
+        projectMetricsNotifier.updateProjectGroups(projectGroups, null);
+
+        expect(
+          projectMetricsNotifier.projectGroupFilterViewModel.id,
+          isNull,
+        );
+      },
+    );
+
+    test(
+      ".updateProjectGroups() changes the project group filter to the default if project groups does not contain the filter view model",
+      () async {
+        const name = 'name was changed';
+        projectMetricsNotifier.changeProjectGroupFilterViewModel(
+          projectGroupDropdownViewModel,
+        );
+
+        final newProjectGroups = [
+          ...projectGroups,
+          ProjectGroup(
+            id: projectGroupDropdownViewModel.id,
+            name: name,
+            projectIds: const [],
+          ),
+        ];
+
+        projectMetricsNotifier.updateProjectGroups(newProjectGroups, null);
+
+        expect(
+          projectMetricsNotifier.projectGroupFilterViewModel.name,
+          equals(name),
+        );
+      },
+    );
 
     test(
       "throws an AssertionError if receive project metric updates use case is null",

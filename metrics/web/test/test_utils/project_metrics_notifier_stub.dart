@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:metrics/dashboard/presentation/model/project_metrics_data.dart';
 import 'package:metrics/dashboard/presentation/state/project_metrics_notifier.dart';
+import 'package:metrics/dashboard/view_models/project_group_dropdown_view_model.dart';
+import 'package:metrics/project_groups/domain/entities/project_group.dart';
 import 'package:metrics_core/metrics_core.dart';
 
 /// Stub implementation of the [ProjectMetricsNotifier].
@@ -52,4 +54,28 @@ class ProjectMetricsNotifierStub extends ChangeNotifier
 
   @override
   void subscribeToProjectsNameFilter() {}
+
+  @override
+  void changeProjectGroupFilterViewModel(
+    ProjectGroupDropdownViewModel viewModel,
+  ) {}
+
+  @override
+  ProjectGroupDropdownViewModel get projectGroupFilterViewModel => null;
+
+  @override
+  List<ProjectGroup> get projectGroups => null;
+
+  @override
+  List<ProjectGroupDropdownViewModel> get projectGroupsDropdownViewModels =>
+      null;
+
+  @override
+  String get projectGroupsErrorMessage => null;
+
+  @override
+  void updateProjectGroups(
+    List<ProjectGroup> projectGroups,
+    String projectGroupsErrorMessage,
+  ) {}
 }

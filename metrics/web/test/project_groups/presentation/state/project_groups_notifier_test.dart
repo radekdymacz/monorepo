@@ -177,7 +177,7 @@ void main() {
         bool hasErrorDescription;
         final metricsListener = expectAsyncUntil0(() async {
           hasErrorDescription =
-              projectGroupsNotifier.errorMessage == errorMessage;
+              projectGroupsNotifier.projectGroupsErrorMessage == errorMessage;
 
           if (hasErrorDescription) projectGroupsNotifier.dispose();
         }, () => hasErrorDescription);
@@ -209,7 +209,7 @@ void main() {
         bool hasErrorDescription;
         final metricsListener = expectAsyncUntil0(() async {
           hasErrorDescription =
-              projectGroupsNotifier.errorMessage == errorMessage;
+              projectGroupsNotifier.projectGroupsErrorMessage == errorMessage;
 
           if (hasErrorDescription) projectGroupsNotifier.dispose();
         }, () => hasErrorDescription);
