@@ -1,40 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:metrics/common/presentation/metrics_theme/config/color_config.dart';
 import 'package:metrics/common/presentation/metrics_theme/state/theme_notifier.dart';
+import 'package:metrics/common/presentation/widgets/metrics_dropdown_button.dart';
 import 'package:metrics/dashboard/presentation/state/project_metrics_notifier.dart';
+import 'package:metrics/dashboard/presentation/strings/dashboard_strings.dart';
 import 'package:metrics/dashboard/view_models/project_group_dropdown_view_model.dart';
 import 'package:provider/provider.dart';
 
+/// Represents a dropdown button for project groups.
 class ProjectGroupsDropdown extends StatelessWidget {
   const ProjectGroupsDropdown({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-
     return Consumer<ProjectMetricsNotifier>(
-      builder: (_, projectMetricsNotifier, __) {
-        final viewModels =
-            projectMetricsNotifier.projectGroupsDropdownViewModels;
+      builder: (_, notifier, __) {
+        final themeNotifier = Provider.of<ThemeNotifier>(context);
+        final viewModels = notifier.projectGroupsDropdownViewModels;
+        final bool isDisabled = viewModels == null || viewModels.isEmpty;
 
-        if (viewModels == null || viewModels.isEmpty) return Container();
-
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        return MetricsDropdownButton<ProjectGroupDropdownViewModel>(
+          value: notifier.projectGroupFilterViewModel,
+          items: isDisabled ? null : _generateDropdownMenuItems(viewModels),
+          onChanged:
+              isDisabled ? null : notifier.changeProjectGroupFilterViewModel,
+          disabledHint: Text(DashboardStrings.allProjectGroups),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             border: Border.all(
               color: themeNotifier.isDark
                   ? ColorConfig.darkInactiveColor
                   : ColorConfig.lightInactiveColor,
-            ),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<ProjectGroupDropdownViewModel>(
-              value: projectMetricsNotifier.projectGroupFilterViewModel,
-              items: _generateDropdownMenuItems(viewModels),
-              onChanged:
-                  projectMetricsNotifier.changeProjectGroupFilterViewModel,
             ),
           ),
         );
