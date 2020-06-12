@@ -11,7 +11,6 @@ import '../../../test_utils/test_injection_container.dart';
 
 void main() {
   group("ProjectGroupsDropdown", () {
-    final projectMetricsNotifierMock = ProjectMetricsNotifierMock();
     final projectGroupDropdownViewModels = [
       ProjectGroupDropdownViewModel(
         id: 'id1',
@@ -24,15 +23,6 @@ void main() {
         projectIds: ['id1', 'id2'],
       ),
     ];
-
-    setUpAll(() {
-      when(projectMetricsNotifierMock.projectGroupsDropdownViewModels)
-          .thenReturn(projectGroupDropdownViewModels);
-    });
-
-    tearDownAll(() {
-      reset(projectMetricsNotifierMock);
-    });
 
     testWidgets(
       "displays the project groups dropdown",
@@ -50,11 +40,24 @@ void main() {
     testWidgets(
       "displays a list of view models as a dropdown menu items",
       (tester) async {
+        final projectMetricsNotifierMock = ProjectMetricsNotifierMock();
+        
+        when(projectMetricsNotifierMock.projectGroupsDropdownViewModels)
+            .thenReturn(projectGroupDropdownViewModels);
+
         await tester.pumpWidget(_ProjectGroupsDropdownTestbed(
           projectMetricsNotifier: projectMetricsNotifierMock,
         ));
 
+        await tester.tap(
+          find.byWidgetPredicate((widget) =>
+              widget is MetricsDropdownButton<ProjectGroupDropdownViewModel>),
+        );
+
+        await tester.pumpAndSettle();
+
         final expectedLength = projectGroupDropdownViewModels.length;
+
         final actualLength = tester
             .widgetList(
               find.byWidgetPredicate((widget) =>
@@ -62,22 +65,25 @@ void main() {
             )
             .length;
 
-        expect(expectedLength, equals(actualLength));
+        expect(actualLength, equals(expectedLength));
       },
     );
 
     testWidgets(
       "triggers changeProjectGroupFilterViewModel method after tap on dropdown menu item",
       (tester) async {
+        final projectMetricsNotifierMock = ProjectMetricsNotifierMock();
+
+        when(projectMetricsNotifierMock.projectGroupsDropdownViewModels)
+            .thenReturn(projectGroupDropdownViewModels);
+
         await tester.pumpWidget(_ProjectGroupsDropdownTestbed(
           projectMetricsNotifier: projectMetricsNotifierMock,
         ));
 
         await tester.tap(
-          find
-              .byWidgetPredicate((widget) =>
-                  widget is MetricsDropdownButton<ProjectGroupDropdownViewModel>)
-              .last,
+          find.byWidgetPredicate((widget) =>
+              widget is MetricsDropdownButton<ProjectGroupDropdownViewModel>),
         );
 
         await tester.pumpAndSettle();
@@ -91,7 +97,8 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        verify(projectMetricsNotifierMock.changeProjectGroupFilterViewModel(any))
+        verify(projectMetricsNotifierMock
+                .changeProjectGroupFilterViewModel(any))
             .called(1);
       },
     );

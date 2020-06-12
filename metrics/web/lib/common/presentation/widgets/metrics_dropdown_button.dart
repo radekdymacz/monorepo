@@ -7,6 +7,7 @@ class MetricsDropdownButton<T> extends StatelessWidget {
   final List<DropdownMenuItem<T>> items;
   final ValueChanged<T> onChanged;
   final Widget disabledHint;
+  final DropdownButtonBuilder selectedItemBuilder;
 
   const MetricsDropdownButton({
     Key key,
@@ -16,6 +17,7 @@ class MetricsDropdownButton<T> extends StatelessWidget {
     this.items,
     this.onChanged,
     this.disabledHint,
+    this.selectedItemBuilder,
   }) : super(key: key);
 
   @override
@@ -25,10 +27,12 @@ class MetricsDropdownButton<T> extends StatelessWidget {
       decoration: decoration,
       child: DropdownButtonHideUnderline(
         child: DropdownButton<T>(
+          selectedItemBuilder: selectedItemBuilder,
           value: value,
           items: items,
           onChanged: onChanged,
           disabledHint: disabledHint,
+          isExpanded: true,
         ),
       ),
     );

@@ -24,7 +24,13 @@ class ProjectGroupsDropdown extends StatelessWidget {
           items: isDisabled ? null : _generateDropdownMenuItems(viewModels),
           onChanged:
               isDisabled ? null : notifier.changeProjectGroupFilterViewModel,
-          disabledHint: Text(DashboardStrings.allProjectGroups),
+          disabledHint: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              DashboardStrings.allProjectGroups,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             border: Border.all(
@@ -33,6 +39,8 @@ class ProjectGroupsDropdown extends StatelessWidget {
                   : ColorConfig.lightInactiveColor,
             ),
           ),
+          selectedItemBuilder:
+              isDisabled ? null : (_) => _generateSelectedItems(viewModels),
         );
       },
     );
@@ -51,5 +59,22 @@ class ProjectGroupsDropdown extends StatelessWidget {
         );
       },
     ).toList();
+  }
+
+  /// Generates a selected list of [Widget] from the [ProjectGroupDropdownViewModel]s.
+  List<Widget> _generateSelectedItems(
+    List<ProjectGroupDropdownViewModel> viewModels,
+  ) {
+    return viewModels
+        .map(
+          (viewModel) => Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              viewModel.name,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        )
+        .toList();
   }
 }
