@@ -14,7 +14,7 @@ class ProjectGroupCardViewModel {
   /// Creates the [ProjectGroupCardViewModel]
   ///
   /// The [id], the [name] and the [projectsCount] must not be null.
-  ProjectGroupCardViewModel({
+  const ProjectGroupCardViewModel({
     @required this.id,
     @required this.name,
     @required this.projectsCount,
