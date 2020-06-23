@@ -61,7 +61,7 @@ void main() {
           find.byType(CheckboxListTile),
         );
 
-        expect(widget.value, checkedViewModel.isChecked);
+        expect(widget.value, equals(checkedViewModel.isChecked));
       },
     );
 
@@ -70,10 +70,11 @@ void main() {
       (WidgetTester tester) async {
         final projectGroupsNotifierMock = ProjectGroupsNotifierMock();
 
+        final projectCheckboxViewModel = checkboxListTileViewModels.first;
         await tester.pumpWidget(
           _ProjectCheckboxListTileTestbed(
             projectGroupsNotifier: projectGroupsNotifierMock,
-            projectCheckboxViewModel: checkboxListTileViewModels.first,
+            projectCheckboxViewModel: projectCheckboxViewModel,
           ),
         );
 
@@ -82,8 +83,8 @@ void main() {
 
         verify(
           projectGroupsNotifierMock.toggleProjectCheckedStatus(
-            isChecked: anyNamed('isChecked'),
-            projectId: anyNamed('projectId'),
+            isChecked: !projectCheckboxViewModel.isChecked,
+            projectId: projectCheckboxViewModel.id,
           ),
         ).called(equals(1));
       },

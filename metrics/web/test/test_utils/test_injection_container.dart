@@ -92,7 +92,7 @@ class TestInjectionContainer extends StatelessWidget {
     );
   }
 
-    /// Updates projects subscription based on user logged in status.
+  /// Updates projects subscription based on user logged in status.
   void _updateProjectsSubscription(
     AuthNotifier authNotifier,
     ProjectsNotifier projectsNotifier,

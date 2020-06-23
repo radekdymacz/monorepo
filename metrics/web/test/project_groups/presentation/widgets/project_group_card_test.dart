@@ -22,7 +22,7 @@ void main() {
   group("ProjectGroupCard", () {
     const projectGroupCardViewModels = [
       ProjectGroupCardViewModel(id: 'id1', name: 'name1', projectsCount: 1),
-      ProjectGroupCardViewModel(id: 'id2', name: 'name2', projectsCount: 0)
+      ProjectGroupCardViewModel(id: 'id2', name: 'name2', projectsCount: 0),
     ];
 
     testWidgets(
@@ -37,7 +37,7 @@ void main() {
     );
 
     testWidgets(
-      "aplies the background color from the metrics inactive widget theme to the padded card background",
+      "applies the background color from the metrics inactive widget theme to the padded card background",
       (WidgetTester tester) async {
         const expectedBackgroundColor = Colors.red;
 
@@ -97,11 +97,15 @@ void main() {
     testWidgets(
       "displays the no projects text if a projects count of the project group card view model is 0",
       (WidgetTester tester) async {
-        await tester.pumpWidget(
-          _ProjectGroupCardTestbed(
-            projectGroupCardViewModel: projectGroupCardViewModels.last,
-          ),
+        const projectGroupCardViewModel = ProjectGroupCardViewModel(
+          id: 'id',
+          name: 'name',
+          projectsCount: 0,
         );
+
+        await tester.pumpWidget(const _ProjectGroupCardTestbed(
+          projectGroupCardViewModel: projectGroupCardViewModel,
+        ));
 
         expect(find.text(ProjectGroupsStrings.noProjects), findsOneWidget);
       },
@@ -171,10 +175,11 @@ void main() {
       ".setProjectGroupDialogViewModel() method of the project groups notifier is called on tap on the edit button",
       (WidgetTester tester) async {
         final projectGroupsNotifier = ProjectGroupsNotifierMock();
+        const projectId = 'id1';
 
         when(projectGroupsNotifier.projectGroupDialogViewModel).thenReturn(
           ProjectGroupDialogViewModel(
-            id: 'id1',
+            id: projectId,
             name: 'name',
             selectedProjectIds: [],
           ),
@@ -194,7 +199,7 @@ void main() {
           ),
         );
 
-        verify(projectGroupsNotifier.setProjectGroupDialogViewModel(any))
+        verify(projectGroupsNotifier.setProjectGroupDialogViewModel(projectId))
             .called(equals(1));
       },
     );

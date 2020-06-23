@@ -6,6 +6,7 @@ import 'package:metrics/common/presentation/state/projects_notifier.dart';
 ///
 /// Provides test implementation of the [ProjectsNotifier] methods.
 class ProjectsNotifierStub extends ChangeNotifier implements ProjectsNotifier {
+  /// A test [ProjectModel]s used inn tests.
   final List<ProjectModel> _projectModels = [
     ProjectModel(id: '1', name: 'name1'),
     ProjectModel(id: '2', name: 'name2'),

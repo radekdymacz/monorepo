@@ -14,7 +14,7 @@ class ProjectCheckboxViewModel {
   /// Creates the [ProjectCheckboxViewModel]
   ///
   /// The [id], the [name] and the [isChecked] must not be null.
-  ProjectCheckboxViewModel({
+  const ProjectCheckboxViewModel({
     @required this.id,
     @required this.name,
     @required this.isChecked,

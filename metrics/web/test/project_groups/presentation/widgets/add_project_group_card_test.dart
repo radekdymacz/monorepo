@@ -65,7 +65,7 @@ void main() {
     );
 
     testWidgets(
-      "aplies the background color from the metrics inactive widget theme to the PaddedCard widget",
+      "applies the background color from the metrics inactive widget theme to the PaddedCard widget",
       (WidgetTester tester) async {
         const backgroundColor = Colors.red;
 

@@ -13,22 +13,26 @@ import 'package:metrics/project_groups/presentation/view_models/project_group_di
 /// Provides test implementation of the [ProjectGroupsNotifier] methods.
 class ProjectGroupsNotifierStub extends ChangeNotifier
     implements ProjectGroupsNotifier {
-  final _projectCheckboxViewModels = [
+  /// A test [ProjectCheckboxViewModel]s used in tests.
+  static const _projectCheckboxViewModels = [
     ProjectCheckboxViewModel(id: '1', name: 'name1', isChecked: false),
     ProjectCheckboxViewModel(id: '2', name: 'name2', isChecked: false),
   ];
 
-  final _projectGroupCardViewModels = [
+  /// A test [ProjectGroupCardViewModel]s used in tests.
+  static const _projectGroupCardViewModels = [
     ProjectGroupCardViewModel(id: '1', name: 'name1', projectsCount: 1),
     ProjectGroupCardViewModel(id: '2', name: 'name2', projectsCount: 2),
   ];
 
+  /// A test [ProjectGroupDialogViewModel] used in tests.
   final _projectGroupDialogViewModel = ProjectGroupDialogViewModel(
     id: '1',
     name: 'name1',
     selectedProjectIds: [],
   );
 
+  /// A test [ProjectGroupDeleteDialogViewModel] used in tests.
   final _projectGroupDeleteDialogViewModel = ProjectGroupDeleteDialogViewModel(
     id: '1',
     name: 'name1',
@@ -36,21 +40,16 @@ class ProjectGroupsNotifierStub extends ChangeNotifier
 
   @override
   Future<void> addProjectGroup(
-      String projectGroupId, String projectGroupName, List<String> projectIds) {
-    // TODO: implement addProjectGroup
-    throw UnimplementedError();
-  }
+    String projectGroupId,
+    String projectGroupName,
+    List<String> projectIds,
+  ) async {}
 
   @override
-  Future<void> deleteProjectGroup(String projectGroupId) {
-    // TODO: implement deleteProjectGroup
-    throw UnimplementedError();
-  }
+  Future<void> deleteProjectGroup(String projectGroupId) async {}
 
   @override
-  void filterByProjectName(String value) {
-    // TODO: implement filterByProjectName
-  }
+  void filterByProjectName(String value) {}
 
   @override
   List<ProjectCheckboxViewModel> get projectCheckboxViewModels =>
@@ -69,13 +68,10 @@ class ProjectGroupsNotifierStub extends ChangeNotifier
       _projectGroupDialogViewModel;
 
   @override
-  // TODO: implement projectGroupSavingError
-  ProjectGroupFirestoreErrorMessage get projectGroupSavingError =>
-      throw UnimplementedError();
+  ProjectGroupFirestoreErrorMessage get projectGroupSavingError => null;
 
   @override
-  // TODO: implement projectGroups
-  List<ProjectGroup> get projectGroups => throw UnimplementedError();
+  List<ProjectGroup> get projectGroups => null;
 
   @override
   String get projectGroupsErrorMessage => null;
@@ -84,49 +80,36 @@ class ProjectGroupsNotifierStub extends ChangeNotifier
   String get projectsErrorMessage => null;
 
   @override
-  void resetFilterName() {
-    // TODO: implement resetFilterName
-  }
+  void resetFilterName() {}
 
   @override
-  void resetProjectGroupSavingErrorMessage() {
-    // TODO: implement resetProjectGroupSavingErrorMessage
-  }
+  void resetProjectGroupSavingErrorMessage() {}
 
   @override
-  void setProjectGroupDeleteDialogViewModel(String projectGroupId) {
-    // TODO: implement setProjectGroupDeleteDialogViewModel
-  }
+  void setProjectGroupDeleteDialogViewModel(String projectGroupId) {}
 
   @override
-  void setProjectGroupDialogViewModel([String projectGroupId]) {
-    // TODO: implement setProjectGroupDialogViewModel
-  }
+  void setProjectGroupDialogViewModel([String projectGroupId]) {}
 
   @override
   Future<void> subscribeToProjectGroups() async {}
 
   @override
-  void toggleProjectCheckedStatus({String projectId, bool isChecked}) {
-    // TODO: implement toggleProjectCheckedStatus
-  }
+  void toggleProjectCheckedStatus({String projectId, bool isChecked}) {}
 
   @override
-  Future<void> unsubscribeFromProjectGroups() {
-    // TODO: implement unsubscribeFromProjectGroups
-    throw UnimplementedError();
-  }
+  Future<void> unsubscribeFromProjectGroups() async {}
 
   @override
   Future<void> updateProjectGroup(
-      String projectGroupId, String projectGroupName, List<String> projectIds) {
-    // TODO: implement updateProjectGroup
-    throw UnimplementedError();
-  }
+    String projectGroupId,
+    String projectGroupName,
+    List<String> projectIds,
+  ) async {}
 
   @override
   void updateProjects(
-      List<ProjectModel> projects, String projectsErrorMessage) {
-    // TODO: implement updateProjects
-  }
+    List<ProjectModel> projects,
+    String projectsErrorMessage,
+  ) {}
 }
