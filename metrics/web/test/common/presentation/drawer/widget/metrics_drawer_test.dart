@@ -50,7 +50,7 @@ void main() {
         ));
 
         final finder = find.ancestor(
-          of: find.text(CommonStrings.darkTheme),
+          of: find.text(CommonStrings.lightTheme),
           matching: find.byType(HandCursor),
         );
 

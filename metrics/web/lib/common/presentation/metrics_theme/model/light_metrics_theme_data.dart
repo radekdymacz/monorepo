@@ -7,6 +7,9 @@ import 'package:metrics/common/presentation/metrics_theme/model/metrics_circle_p
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_group_card_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_group_dialog_theme_data.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/user_menu_theme_data.dart';
+
+import '../config/color_config.dart';
 
 /// Stores the theme data for light metrics theme.
 class LightMetricsThemeData extends MetricsThemeData {
@@ -129,6 +132,16 @@ class LightMetricsThemeData extends MetricsThemeData {
               color: Colors.grey,
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
+            ),
+          ),
+          userMenuThemeData: const UserMenuThemeData(
+            backgroundColor: Colors.white,
+            activeColor: ColorConfig.lightInactiveBackgroundColor,
+            dividerColor: ColorConfig.lightScaffoldColor,
+            primaryTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 16.0,
+              height: 1.0
             ),
           ),
         );

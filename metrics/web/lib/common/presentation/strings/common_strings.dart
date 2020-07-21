@@ -1,12 +1,12 @@
 /// Holds the strings used across the whole project.
 class CommonStrings {
   static const String home = 'Home';
-  static const String darkTheme = 'Dark theme';
+  static const String lightTheme = 'Light theme';
   static const String projectGroups = 'Project groups';
   static const String navigateBack = 'Back';
   static const String openUserMenu = 'Open user menu';
   static const String metrics = 'metrics';
-  static const String logOut = 'Log out';
+  static const String logOut = 'Logout';
   static const String searchForProject = 'Search for project...';
   static const String edit = 'Edit';
   static const String delete = 'Delete';

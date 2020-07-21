@@ -5,6 +5,7 @@ import 'package:metrics/common/presentation/metrics_theme/model/metric_widget_th
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_circle_percentage_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_group_card_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_group_dialog_theme_data.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/user_menu_theme_data.dart';
 import 'package:metrics/dashboard/presentation/widgets/build_result_bar_graph.dart';
 
 /// Stores the theme data for all metric widgets.
@@ -36,6 +37,8 @@ class MetricsThemeData {
   /// The theme for the add project group card.
   final ProjectGroupCardThemeData addProjectGroupCardTheme;
 
+  final UserMenuThemeData userMenuThemeData;
+
   /// Creates the [MetricsThemeData].
   const MetricsThemeData({
     MetricCirclePercentageThemeData metricCirclePercentageThemeData,
@@ -45,6 +48,7 @@ class MetricsThemeData {
     ProjectGroupDialogThemeData projectGroupDialogTheme,
     ProjectGroupCardThemeData projectGroupCardTheme,
     ProjectGroupCardThemeData addProjectGroupCardTheme,
+    UserMenuThemeData userMenuThemeData,
   })  : metricCirclePercentageThemeData = metricCirclePercentageThemeData ??
             const MetricCirclePercentageThemeData(),
         inactiveWidgetTheme = inactiveWidgetTheme ?? _defaultWidgetThemeData,
@@ -60,7 +64,8 @@ class MetricsThemeData {
         projectGroupCardTheme =
             projectGroupCardTheme ?? const ProjectGroupCardThemeData(),
         addProjectGroupCardTheme =
-            addProjectGroupCardTheme ?? const ProjectGroupCardThemeData();
+            addProjectGroupCardTheme ?? const ProjectGroupCardThemeData(),
+        userMenuThemeData = userMenuThemeData ?? const UserMenuThemeData();
 
   /// Creates the new instance of the [MetricsThemeData] based on current instance.
   ///
@@ -74,6 +79,7 @@ class MetricsThemeData {
     ProjectGroupCardThemeData projectGroupCardTheme,
     ProjectGroupCardThemeData addProjectGroupCardTheme,
     MetricWidgetThemeData inactiveWidgetTheme,
+    UserMenuThemeData userMenuThemeData,
   }) {
     return MetricsThemeData(
       metricCirclePercentageThemeData: metricCirclePercentageThemeData ??
@@ -87,6 +93,7 @@ class MetricsThemeData {
       addProjectGroupCardTheme:
           addProjectGroupCardTheme ?? this.addProjectGroupCardTheme,
       inactiveWidgetTheme: inactiveWidgetTheme ?? this.inactiveWidgetTheme,
+      userMenuThemeData: userMenuThemeData ?? this.userMenuThemeData,
     );
   }
 }

@@ -28,7 +28,7 @@ class MetricsDrawer extends StatelessWidget {
               return HandCursor(
                 child: CheckboxListTile(
                   value: model.isDark,
-                  title: const Text(CommonStrings.darkTheme),
+                  title: const Text(CommonStrings.lightTheme),
                   onChanged: (_) => model.changeTheme(),
                 ),
               );

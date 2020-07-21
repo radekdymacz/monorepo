@@ -7,6 +7,7 @@ import 'package:metrics/common/presentation/metrics_theme/model/metrics_circle_p
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_group_card_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_group_dialog_theme_data.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/user_menu_theme_data.dart';
 
 /// Stores the theme data for dark metrics theme.
 class DarkMetricsThemeData extends MetricsThemeData {
@@ -129,6 +130,16 @@ class DarkMetricsThemeData extends MetricsThemeData {
               color: ColorConfig.darkInactiveColor,
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
+            ),
+          ),
+          userMenuThemeData: const UserMenuThemeData(
+            backgroundColor: Colors.black,
+            activeColor: ColorConfig.darkBorderColor,
+            dividerColor: ColorConfig.darkScaffoldColor,
+            primaryTextStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                height: 1.0
             ),
           ),
         );
