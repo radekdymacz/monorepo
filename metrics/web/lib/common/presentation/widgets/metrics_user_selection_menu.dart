@@ -3,24 +3,24 @@ import 'package:metrics/common/presentation/widgets/metrics_user_menu_dropdown_b
 import 'package:selection_menu/components_configurations.dart';
 import 'package:selection_menu/selection_menu.dart';
 
-/// A widget that used a [SelectionMenu] to display the user menu.
+/// A widget that used a [SelectionMenu] to display the user menu pop-up.
 class MetricsUserSelectionMenu extends StatelessWidget {
   /// A widget that triggers the user menu.
   final Widget child;
 
-  /// A max width of this user menu.
-  final double maxWidth;
+  static const double _width = 220.0;
 
-  /// Creates a widget that displays the user menu.
+  static const double _topPadding = 8.0;
+
+  static const double _rightPadding = 3.0;
+
+  /// Creates the [MetricsUserSelectionMenu] with the given [child].
   ///
   /// The [child] must not be `null`.
-  /// The [maxWidth] must not be `null`.
   const MetricsUserSelectionMenu({
     Key key,
     @required this.child,
-    @required this.maxWidth,
   })  : assert(child != null),
-        assert(maxWidth != null),
         super(key: key);
 
   @override
@@ -36,27 +36,26 @@ class MetricsUserSelectionMenu extends StatelessWidget {
           builder: (data) {
             return MetricsUserMenuDropdownBody(
               data: data,
-              width: maxWidth,
             );
           },
         ),
         triggerComponent: TriggerComponent(
-          builder: (component) {
+          builder: (data) {
             return GestureDetector(
-              onTap: component.triggerMenu,
+              onTap: data.triggerMenu,
               child: child,
             );
           },
         ),
         menuPositionAndSizeComponent: MenuPositionAndSizeComponent(
-          builder: (component) {
-            final triggerSize = component.triggerPositionAndSize.size;
-            final dx = triggerSize.width - maxWidth + 3.0;
-            final dy = triggerSize.height + 8.0;
+          builder: (data) {
+            final triggerSize = data.triggerPositionAndSize.size;
+            final dx = triggerSize.width - _width + _rightPadding;
+            final dy = triggerSize.height + _topPadding;
 
             return MenuPositionAndSize(
               positionOffset: Offset(dx, dy),
-              constraints: const BoxConstraints(),
+              constraints: const BoxConstraints(maxWidth: _width),
             );
           },
         ),

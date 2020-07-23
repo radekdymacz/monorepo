@@ -134,15 +134,12 @@ class LightMetricsThemeData extends MetricsThemeData {
               fontWeight: FontWeight.bold,
             ),
           ),
-          userMenuThemeData: const UserMenuThemeData(
+          userMenuTheme: const UserMenuThemeData(
             backgroundColor: Colors.white,
             activeColor: ColorConfig.lightInactiveBackgroundColor,
             dividerColor: ColorConfig.lightScaffoldColor,
-            primaryTextStyle: TextStyle(
-              color: Colors.black,
-              fontSize: 16.0,
-              height: 1.0
-            ),
+            primaryTextStyle:
+                TextStyle(color: Colors.black, fontSize: 16.0, height: 1.0),
           ),
         );
 }

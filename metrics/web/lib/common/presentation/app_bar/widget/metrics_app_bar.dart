@@ -36,7 +36,6 @@ class MetricsAppBar extends StatelessWidget {
             ),
           ),
           MetricsUserSelectionMenu(
-            maxWidth: 220.0,
             child: Tooltip(
               message: CommonStrings.openUserMenu,
               child: HandCursor(

@@ -10,29 +10,24 @@ class MetricsUserMenuDropdownBody extends StatelessWidget {
   /// about dropdown body animation.
   final AnimationComponentData data;
 
-  /// A width of the dropdown body child.
-  final double width;
-
   /// Creates the [MetricsUserMenuDropdownBody] with the given [data].
   ///
   /// The [data] must not be `null`.
   const MetricsUserMenuDropdownBody({
     Key key,
     @required this.data,
-    this.width,
   })  : assert(data != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DropdownBody(
+      maxWidth: data.constraints.maxWidth,
       state: data.menuState,
       animationCurve: Curves.linear,
       animationDuration: DurationConstants.animation,
       onOpenStateChanged: _onOpenStateChanges,
-      child: MetricsUserMenuCard(
-        width: width,
-      ),
+      child: const MetricsUserMenuCard(),
     );
   }
 

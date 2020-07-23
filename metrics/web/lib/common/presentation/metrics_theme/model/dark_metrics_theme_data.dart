@@ -132,15 +132,12 @@ class DarkMetricsThemeData extends MetricsThemeData {
               fontWeight: FontWeight.bold,
             ),
           ),
-          userMenuThemeData: const UserMenuThemeData(
+          userMenuTheme: const UserMenuThemeData(
             backgroundColor: Colors.black,
             activeColor: ColorConfig.darkBorderColor,
             dividerColor: ColorConfig.darkScaffoldColor,
-            primaryTextStyle: TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-                height: 1.0
-            ),
+            primaryTextStyle:
+                TextStyle(color: Colors.white, fontSize: 16.0, height: 1.0),
           ),
         );
 }

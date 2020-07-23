@@ -5,6 +5,7 @@ import 'package:metrics/common/presentation/metrics_theme/model/metrics_circle_p
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_group_card_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_group_dialog_theme_data.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/user_menu_theme_data.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -21,6 +22,7 @@ void main() {
         expect(themeData.projectGroupDialogTheme, isNotNull);
         expect(themeData.projectGroupCardTheme, isNotNull);
         expect(themeData.addProjectGroupCardTheme, isNotNull);
+        expect(themeData.userMenuTheme, isNotNull);
       },
     );
 
@@ -35,6 +37,7 @@ void main() {
           projectGroupCardTheme: null,
           addProjectGroupCardTheme: null,
           projectGroupDialogTheme: null,
+          userMenuTheme: null,
         );
 
         expect(themeData.metricCirclePercentageThemeData, isNotNull);
@@ -44,6 +47,7 @@ void main() {
         expect(themeData.projectGroupCardTheme, isNotNull);
         expect(themeData.addProjectGroupCardTheme, isNotNull);
         expect(themeData.projectGroupDialogTheme, isNotNull);
+        expect(themeData.userMenuTheme, isNotNull);
       },
     );
 
@@ -84,9 +88,11 @@ void main() {
 
         const projectGroupDialogTheme = ProjectGroupDialogThemeData();
 
-        const inactiveThemeData = MetricWidgetThemeData(
+        const inactiveTheme = MetricWidgetThemeData(
           primaryColor: primaryColor,
         );
+
+        const userTheme = UserMenuThemeData();
 
         const themeData = MetricsThemeData();
 
@@ -97,7 +103,7 @@ void main() {
           projectGroupCardTheme: projectGroupCardTheme,
           addProjectGroupCardTheme: addProjectGroupTheme,
           projectGroupDialogTheme: projectGroupDialogTheme,
-          inactiveWidgetTheme: inactiveThemeData,
+          inactiveWidgetTheme: inactiveTheme,
         );
 
         expect(
@@ -105,7 +111,7 @@ void main() {
           equals(circlePercentageTheme),
         );
         expect(copiedTheme.metricWidgetTheme, equals(metricWidgetTheme));
-        expect(copiedTheme.inactiveWidgetTheme, equals(inactiveThemeData));
+        expect(copiedTheme.inactiveWidgetTheme, equals(inactiveTheme));
         expect(copiedTheme.buildResultTheme, equals(buildResultsTheme));
         expect(
           copiedTheme.projectGroupCardTheme,
@@ -119,6 +125,7 @@ void main() {
           copiedTheme.projectGroupDialogTheme,
           equals(projectGroupDialogTheme),
         );
+        expect(copiedTheme.userMenuTheme, equals(userTheme));
       },
     );
 
@@ -156,6 +163,10 @@ void main() {
         expect(
           themeData.inactiveWidgetTheme,
           copiedTheme.inactiveWidgetTheme,
+        );
+        expect(
+          themeData.userMenuTheme,
+          equals(copiedTheme.userMenuTheme),
         );
       },
     );
