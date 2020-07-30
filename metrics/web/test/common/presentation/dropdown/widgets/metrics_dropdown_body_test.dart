@@ -3,19 +3,47 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:metrics/base/presentation/widgets/dropdown_body.dart';
 import 'package:metrics/common/presentation/constants/duration_constants.dart';
-import 'package:metrics/dashboard/presentation/widgets/project_groups_dropdown_body.dart';
+import 'package:metrics/common/presentation/dropdown/theme/theme_data/dropdown_theme_data.dart';
+import 'package:metrics/common/presentation/dropdown/widgets/metrics_dropdown_body.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
 import 'package:selection_menu/components_configurations.dart';
 
+import '../../../../test_utils/metrics_themed_testbed.dart';
+
 void main() {
-  group("ProjectGroupsDropdownBody", () {
+  group("MetricsDropdownBody", () {
     testWidgets(
       "throws an AssertionError if the given data is null",
       (tester) async {
         await tester.pumpWidget(
-          const _ProjectGroupsDropdownBodyTestbed(data: null),
+          const _MetricsDropdownBodyTestbed(data: null),
         );
 
         expect(tester.takeException(), isAssertionError);
+      },
+    );
+
+    testWidgets(
+      "applies the background color from the metrics theme",
+      (tester) async {
+        const backgroundColor = Colors.blue;
+
+        const theme = MetricsThemeData(
+          dropdownTheme: DropdownThemeData(backgroundColor: backgroundColor),
+        );
+
+        await tester.pumpWidget(
+          const _MetricsDropdownBodyTestbed(
+            theme: theme,
+          ),
+        );
+
+        final cardWidget = tester.widget<Card>(find.descendant(
+          of: find.byType(DropdownBody),
+          matching: find.byType(Card),
+        ));
+
+        expect(cardWidget.color, equals(backgroundColor));
       },
     );
 
@@ -25,7 +53,7 @@ void main() {
         final animationComponentData = _AnimationComponentDataStub();
 
         await tester.pumpWidget(
-          _ProjectGroupsDropdownBodyTestbed(
+          _MetricsDropdownBodyTestbed(
             data: animationComponentData,
           ),
         );
@@ -41,12 +69,12 @@ void main() {
       "applies the menuState from the given data to the dropdown body",
       (tester) async {
         const menuState = MenuState.Opened;
-        final animationComponentData = _AnimationComponentDataStub(
+        const animationComponentData = _AnimationComponentDataStub(
           menuState: menuState,
         );
 
         await tester.pumpWidget(
-          _ProjectGroupsDropdownBodyTestbed(
+          const _MetricsDropdownBodyTestbed(
             data: animationComponentData,
           ),
         );
@@ -66,14 +94,14 @@ void main() {
       "applies the max height from the given data to the dropdown body",
       (tester) async {
         const maxHeight = 30.0;
-        final animationComponentData = _AnimationComponentDataStub(
-          constraints: const BoxConstraints(
+        const animationComponentData = _AnimationComponentDataStub(
+          constraints: BoxConstraints(
             maxHeight: maxHeight,
           ),
         );
 
         await tester.pumpWidget(
-          _ProjectGroupsDropdownBodyTestbed(
+          const _MetricsDropdownBodyTestbed(
             data: animationComponentData,
           ),
         );
@@ -93,7 +121,7 @@ void main() {
       "applies the animation duration constant to the dropdown body",
       (tester) async {
         await tester.pumpWidget(
-          _ProjectGroupsDropdownBodyTestbed(
+          const _MetricsDropdownBodyTestbed(
             data: _AnimationComponentDataStub(),
           ),
         );
@@ -119,7 +147,7 @@ void main() {
         });
 
         await tester.pumpWidget(
-          _ProjectGroupsDropdownBodyTestbed(
+          _MetricsDropdownBodyTestbed(
             data: animationComponentData,
           ),
         );
@@ -149,7 +177,7 @@ void main() {
         );
 
         await tester.pumpWidget(
-          _ProjectGroupsDropdownBodyTestbed(
+          _MetricsDropdownBodyTestbed(
             data: animationComponentData,
           ),
         );
@@ -169,23 +197,25 @@ void main() {
   });
 }
 
-/// A testbed class used to test the [ProjectGroupsDropdownBody] widget.
-class _ProjectGroupsDropdownBodyTestbed extends StatelessWidget {
+/// A testbed class used to test the [MetricsDropdownBody] widget.
+class _MetricsDropdownBodyTestbed extends StatelessWidget {
   /// An [AnimationComponentData] that provides an information about menu animation.
   final AnimationComponentData data;
 
+  final MetricsThemeData theme;
+
   /// Creates the testbed with the given [data].
-  const _ProjectGroupsDropdownBodyTestbed({
+  const _MetricsDropdownBodyTestbed({
     Key key,
-    this.data,
+    this.data = const _AnimationComponentDataStub(),
+    this.theme = const MetricsThemeData(),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: ProjectGroupsDropdownBody(data: data),
-      ),
+    return MetricsThemedTestbed(
+      metricsThemeData: theme,
+      body: MetricsDropdownBody(data: data),
     );
   }
 }
@@ -214,7 +244,7 @@ class _AnimationComponentDataStub implements AnimationComponentData {
   @override
   final MenuStateChanged closed;
 
-  _AnimationComponentDataStub({
+  const _AnimationComponentDataStub({
     this.menuState = MenuState.OpeningStart,
     this.child = const Text('child'),
     this.constraints = const BoxConstraints(

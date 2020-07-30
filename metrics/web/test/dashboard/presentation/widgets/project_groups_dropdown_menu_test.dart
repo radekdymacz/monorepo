@@ -1,13 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:metrics/base/presentation/widgets/dropdown_menu.dart';
+import 'package:metrics/common/presentation/dropdown/theme/theme_data/dropdown_theme_data.dart';
+import 'package:metrics/common/presentation/dropdown/widgets/metrics_dropdown_menu.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
-import 'package:metrics/common/presentation/metrics_theme/model/dropdown_theme_data.dart';
 import 'package:metrics/dashboard/presentation/state/project_metrics_notifier.dart';
 import 'package:metrics/dashboard/presentation/view_models/project_group_dropdown_item_view_model.dart';
-import 'package:metrics/dashboard/presentation/widgets/project_groups_dropdown_body.dart';
 import 'package:metrics/dashboard/presentation/widgets/project_groups_dropdown_item.dart';
 import 'package:metrics/dashboard/presentation/widgets/project_groups_dropdown_menu.dart';
 import 'package:mockito/mockito.dart';
@@ -33,14 +31,14 @@ void main() {
 
     const dropdownItems = [firstDropdownItem, secondDropdownItem];
 
-    final mouseRegionFinder = find.descendant(
-      of: find.byType(ProjectGroupsDropdownMenu),
-      matching: find.byType(MouseRegion).last,
+    final dropdownMenuFinder = find.byWidgetPredicate(
+      (widget) => widget is MetricsDropdownMenu,
     );
 
-    final dropdownMenuFinder = find.byWidgetPredicate(
-      (widget) => widget is DropdownMenu,
-    );
+    Future<void> openDropdownMenu(WidgetTester tester) async {
+      await tester.tap(find.byType(ProjectGroupsDropdownMenu));
+      await tester.pumpAndSettle();
+    }
 
     setUp(() {
       metricsNotifier = ProjectMetricsNotifierMock();
@@ -48,206 +46,18 @@ void main() {
     });
 
     testWidgets(
-      "applies the closed button background color from metrics theme",
+      "contains the metrics dropdown menu widget",
       (tester) async {
-        const backgroundColor = Colors.red;
-        const theme = MetricsThemeData(
-          dropdownTheme: DropdownThemeData(
-            closedButtonBackgroundColor: backgroundColor,
-          ),
-        );
-
         await mockNetworkImagesFor(() {
           return tester.pumpWidget(
-            const _ProjectGroupsDropdownMenuTestbed(
-              theme: theme,
-            ),
+            _ProjectGroupsDropdownMenuTestbed(metricsNotifier: metricsNotifier),
           );
         });
 
-        final buttonContainer = tester.widget<Container>(find.descendant(
-          of: find.byType(ProjectGroupsDropdownMenu),
-          matching: find.byType(Container),
-        ));
-
-        final buttonDecoration = buttonContainer.decoration as BoxDecoration;
-
-        expect(buttonDecoration.color, equals(backgroundColor));
-      },
-    );
-
-    testWidgets(
-      "applies the opened button background color from the metrics theme if the dropdown is opened",
-      (tester) async {
-        const backgroundColor = Colors.red;
-        const theme = MetricsThemeData(
-          dropdownTheme: DropdownThemeData(
-            openedButtonBackgroundColor: backgroundColor,
-          ),
+        expect(
+          dropdownMenuFinder,
+          findsOneWidget,
         );
-
-        await mockNetworkImagesFor(() {
-          return tester.pumpWidget(
-            const _ProjectGroupsDropdownMenuTestbed(
-              theme: theme,
-            ),
-          );
-        });
-
-        await tester.tap(find.byType(ProjectGroupsDropdownMenu));
-        await tester.pumpAndSettle();
-
-        final buttonContainer = tester.widget<Container>(find.descendant(
-          of: find.byType(ProjectGroupsDropdownMenu),
-          matching: find.byType(Container),
-        ));
-
-        final buttonDecoration = buttonContainer.decoration as BoxDecoration;
-
-        expect(buttonDecoration.color, equals(backgroundColor));
-      },
-    );
-
-    testWidgets(
-      "applies the hover background color from the metrics theme if the dropdown is hovered",
-      (tester) async {
-        const backgroundColor = Colors.red;
-        const theme = MetricsThemeData(
-          dropdownTheme: DropdownThemeData(
-            hoverBackgroundColor: backgroundColor,
-          ),
-        );
-
-        await mockNetworkImagesFor(() {
-          return tester.pumpWidget(
-            const _ProjectGroupsDropdownMenuTestbed(
-              theme: theme,
-            ),
-          );
-        });
-
-        final mouseRegion = tester.widget<MouseRegion>(mouseRegionFinder);
-        const pointerExitEvent = PointerEnterEvent();
-        mouseRegion.onEnter(pointerExitEvent);
-
-        await tester.pump();
-
-        final buttonContainer = tester.widget<Container>(find.descendant(
-          of: find.byType(ProjectGroupsDropdownMenu),
-          matching: find.byType(Container),
-        ));
-
-        final buttonDecoration = buttonContainer.decoration as BoxDecoration;
-
-        expect(buttonDecoration.color, equals(backgroundColor));
-      },
-    );
-
-    testWidgets(
-      "applies the closed button border color from the metrics theme if the dropdown is closed",
-      (tester) async {
-        const borderColor = Colors.red;
-        const theme = MetricsThemeData(
-          dropdownTheme: DropdownThemeData(
-            closedButtonBorderColor: borderColor,
-          ),
-        );
-
-        await mockNetworkImagesFor(() {
-          return tester.pumpWidget(
-            const _ProjectGroupsDropdownMenuTestbed(
-              theme: theme,
-            ),
-          );
-        });
-
-        final buttonContainer = tester.widget<Container>(find.descendant(
-          of: find.byType(ProjectGroupsDropdownMenu),
-          matching: find.byType(Container),
-        ));
-
-        final buttonDecoration = buttonContainer.decoration as BoxDecoration;
-        final boxBorder = buttonDecoration.border as Border;
-
-        expect(boxBorder.top.color, equals(borderColor));
-        expect(boxBorder.bottom.color, equals(borderColor));
-        expect(boxBorder.right.color, equals(borderColor));
-        expect(boxBorder.left.color, equals(borderColor));
-      },
-    );
-
-    testWidgets(
-      "applies the opened button border color from the metrics theme if the dropdown is opened",
-      (tester) async {
-        const borderColor = Colors.red;
-        const theme = MetricsThemeData(
-          dropdownTheme: DropdownThemeData(
-            openedButtonBorderColor: borderColor,
-          ),
-        );
-
-        await mockNetworkImagesFor(() {
-          return tester.pumpWidget(
-            const _ProjectGroupsDropdownMenuTestbed(
-              theme: theme,
-            ),
-          );
-        });
-
-        await tester.tap(find.byType(ProjectGroupsDropdownMenu));
-        await tester.pumpAndSettle();
-
-        final buttonContainer = tester.widget<Container>(find.descendant(
-          of: find.byType(ProjectGroupsDropdownMenu),
-          matching: find.byType(Container),
-        ));
-
-        final buttonDecoration = buttonContainer.decoration as BoxDecoration;
-        final boxBorder = buttonDecoration.border as Border;
-
-        expect(boxBorder.top.color, equals(borderColor));
-        expect(boxBorder.bottom.color, equals(borderColor));
-        expect(boxBorder.right.color, equals(borderColor));
-        expect(boxBorder.left.color, equals(borderColor));
-      },
-    );
-
-    testWidgets(
-      "applies the hover border color from the metrics theme if the dropdown is hovered",
-      (tester) async {
-        const borderColor = Colors.red;
-        const theme = MetricsThemeData(
-          dropdownTheme: DropdownThemeData(
-            hoverBorderColor: borderColor,
-          ),
-        );
-
-        await mockNetworkImagesFor(() {
-          return tester.pumpWidget(
-            const _ProjectGroupsDropdownMenuTestbed(
-              theme: theme,
-            ),
-          );
-        });
-
-        final mouseRegion = tester.widget<MouseRegion>(mouseRegionFinder);
-        const pointerExitEvent = PointerEnterEvent();
-        mouseRegion.onEnter(pointerExitEvent);
-
-        await tester.pump();
-
-        final buttonContainer = tester.widget<Container>(find.descendant(
-          of: find.byType(ProjectGroupsDropdownMenu),
-          matching: find.byType(Container),
-        ));
-
-        final buttonDecoration = buttonContainer.decoration as BoxDecoration;
-        final boxBorder = buttonDecoration.border as Border;
-
-        expect(boxBorder.top.color, equals(borderColor));
-        expect(boxBorder.bottom.color, equals(borderColor));
-        expect(boxBorder.right.color, equals(borderColor));
-        expect(boxBorder.left.color, equals(borderColor));
       },
     );
 
@@ -280,27 +90,6 @@ void main() {
       },
     );
 
-    Future<void> openDropdownMenu(WidgetTester tester) async {
-      await tester.tap(find.byType(ProjectGroupsDropdownMenu));
-      await tester.pumpAndSettle();
-    }
-
-    testWidgets(
-      "contains the dropdown menu widget",
-      (tester) async {
-        await mockNetworkImagesFor(() {
-          return tester.pumpWidget(
-            _ProjectGroupsDropdownMenuTestbed(metricsNotifier: metricsNotifier),
-          );
-        });
-
-        expect(
-          dropdownMenuFinder,
-          findsOneWidget,
-        );
-      },
-    );
-
     testWidgets(
       "does not overflow on a very long project group name",
       (tester) async {
@@ -325,7 +114,7 @@ void main() {
     );
 
     testWidgets(
-      "applies the project group dropdown items to the dropdown menu widget",
+      "applies the project group dropdown items to the metrics dropdown menu widget",
       (tester) async {
         await mockNetworkImagesFor(() {
           return tester.pumpWidget(
@@ -333,46 +122,10 @@ void main() {
           );
         });
 
-        final dropdownMenu = tester.widget<DropdownMenu>(dropdownMenuFinder);
+        final dropdownMenu =
+            tester.widget<MetricsDropdownMenu>(dropdownMenuFinder);
 
         expect(dropdownMenu.items, equals(dropdownItems));
-      },
-    );
-
-    testWidgets(
-      "displays a project groups dropdown body when opened",
-      (tester) async {
-        await mockNetworkImagesFor(() {
-          return tester.pumpWidget(
-            _ProjectGroupsDropdownMenuTestbed(metricsNotifier: metricsNotifier),
-          );
-        });
-
-        await openDropdownMenu(tester);
-
-        expect(find.byType(ProjectGroupsDropdownBody), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      "displays the given items with the ProjectGroupDropdownItem widget",
-      (tester) async {
-        await mockNetworkImagesFor(() {
-          return tester.pumpWidget(
-            _ProjectGroupsDropdownMenuTestbed(metricsNotifier: metricsNotifier),
-          );
-        });
-
-        await openDropdownMenu(tester);
-
-        final actualDropdownItems = tester
-            .widgetList<ProjectGroupsDropdownItem>(
-              find.byType(ProjectGroupsDropdownItem),
-            )
-            .map((item) => item.projectGroupDropdownItemViewModel)
-            .toList();
-
-        expect(listEquals(actualDropdownItems, dropdownItems), isTrue);
       },
     );
 

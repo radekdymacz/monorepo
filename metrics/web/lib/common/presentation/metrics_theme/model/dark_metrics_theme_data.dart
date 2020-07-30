@@ -6,8 +6,8 @@ import 'package:metrics/common/presentation/metrics_theme/config/color_config.da
 import 'package:metrics/common/presentation/metrics_theme/config/text_style_config.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/build_results_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/delete_dialog_theme_data.dart';
-import 'package:metrics/common/presentation/metrics_theme/model/dropdown_item_theme_data.dart';
-import 'package:metrics/common/presentation/metrics_theme/model/dropdown_theme_data.dart';
+import 'package:metrics/common/presentation/dropdown/theme/theme_data/dropdown_item_theme_data.dart';
+import 'package:metrics/common/presentation/dropdown/theme/theme_data/dropdown_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/login_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metric_widget_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_circle_percentage_theme_data.dart';
