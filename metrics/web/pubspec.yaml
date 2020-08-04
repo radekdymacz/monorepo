@@ -34,7 +34,6 @@ dependencies:
   google_fonts: ^1.0.0
   universal_html: ^1.2.3
   selection_menu: ^0.9.0
-  shape_of_view: ^1.0.2
   flutter_switch: ^0.1.1
   metrics_core:
     path: ../core

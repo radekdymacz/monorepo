@@ -13,13 +13,16 @@ class MetricsThemedTestbed extends StatelessWidget {
   /// A [GlobalKey] used to get a [NavigatorState] in tests.
   final GlobalKey<NavigatorState> navigatorKey;
 
+  /// Creates a route for the given route settings.
+  final RouteFactory onGenerateRoute;
+
   /// Creates the [MetricsThemedTestbed] with the given [metricsThemeData].
   ///
   /// If the [metricsThemeData] not passed, the default [MetricsThemeData] used.
   const MetricsThemedTestbed({
     @required this.body,
     this.metricsThemeData = const MetricsThemeData(),
-    this.navigatorKey,
+    this.navigatorKey, this.onGenerateRoute,
   });
 
   @override
@@ -32,6 +35,7 @@ class MetricsThemedTestbed extends StatelessWidget {
           child: body,
         ),
       ),
+      onGenerateRoute: onGenerateRoute,
     );
   }
 }

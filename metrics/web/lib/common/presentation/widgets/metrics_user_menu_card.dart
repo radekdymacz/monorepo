@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:metrics/auth/presentation/state/auth_notifier.dart';
 import 'package:metrics/base/presentation/widgets/hand_cursor.dart';
-import 'package:metrics/base/presentation/widgets/shape_with_arrow.dart';
+import 'package:metrics/common/presentation/decoration/arrow_shape_border.dart';
 import 'package:metrics/common/presentation/metrics_theme/state/theme_notifier.dart';
 import 'package:metrics/common/presentation/metrics_theme/widgets/metrics_theme.dart';
 import 'package:metrics/common/presentation/routes/route_name.dart';
 import 'package:metrics/common/presentation/strings/common_strings.dart';
 import 'package:provider/provider.dart';
-import 'package:shape_of_view/shape/bubble.dart';
 
 /// A widget that displays a metrics user menu with specific shape.
 class MetricsUserMenuCard extends StatelessWidget {
-  /// Creates the [MetricsUserMenuCard] with the given [width].
-  ///
-  /// The [width] must not be `null`.
+  /// Creates the [MetricsUserMenuCard].
   const MetricsUserMenuCard({
     Key key,
   }) : super(key: key);
@@ -27,16 +24,22 @@ class MetricsUserMenuCard extends StatelessWidget {
     final userMenuTheme = MetricsTheme.of(context).userMenuTheme;
     final userMenuTextStyle = userMenuTheme.primaryTextStyle;
 
-    return ShapeWithArrow(
-      arrowPositionPercent: 0.95,
-      bubblePosition: BubblePosition.Top,
-      backgroundColor: userMenuTheme.backgroundColor,
-      arrowHeight: arrowHeight,
-      arrowWidth: arrowWidth,
-      padding: const EdgeInsets.only(top: arrowHeight),
-      borderRadius: 4.0,
+    return Card(
+      elevation: 0.0,
+      margin: EdgeInsets.zero,
+      color: userMenuTheme.backgroundColor,
+      shape: const ArrowShapeBorder(
+        borderRadius: 1.0,
+        arrowWidth: arrowWidth,
+        arrowHeight: arrowHeight,
+        alignment: ArrowAlignment.end,
+        position: ArrowPosition.top,
+        offset: -8.0,
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        padding: const EdgeInsets.only(top: arrowHeight).add(
+          const EdgeInsets.symmetric(vertical: 12.0),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +51,10 @@ class MetricsUserMenuCard extends StatelessWidget {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(CommonStrings.lightTheme, style: userMenuTextStyle),
+                      Text(
+                        CommonStrings.lightTheme,
+                        style: userMenuTextStyle,
+                      ),
                       HandCursor(
                         child: FlutterSwitch(
                           width: 35.0,
@@ -75,6 +81,18 @@ class MetricsUserMenuCard extends StatelessWidget {
                   ),
                   child: Text(
                     CommonStrings.projectGroups,
+                    style: userMenuTextStyle,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: itemPadding,
+              child: HandCursor(
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    CommonStrings.users,
                     style: userMenuTextStyle,
                   ),
                 ),
