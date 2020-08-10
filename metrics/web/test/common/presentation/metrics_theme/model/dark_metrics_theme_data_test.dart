@@ -11,7 +11,6 @@ void main() {
       () {
         final darkMetricsThemeData = DarkMetricsThemeData();
 
-        expect(darkMetricsThemeData.metricCirclePercentageThemeData, isNotNull);
         expect(darkMetricsThemeData.metricWidgetTheme, isNotNull);
         expect(darkMetricsThemeData.buildResultTheme, isNotNull);
         expect(darkMetricsThemeData.inactiveWidgetTheme, isNotNull);
@@ -30,6 +29,7 @@ void main() {
         expect(darkMetricsThemeData.projectBuildStatusTheme, isNotNull);
         expect(darkMetricsThemeData.toggleTheme, isNotNull);
         expect(darkMetricsThemeData.userMenuTheme, isNotNull);
+        expect(darkMetricsThemeData.circlePercentageTheme, isNotNull);
       },
     );
   });
