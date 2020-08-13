@@ -85,9 +85,11 @@ class MetricsThemeData {
   /// A theme for the user menu popup.
   final UserMenuThemeData userMenuTheme;
 
+  /// A theme for the metrics table in the loading status.
   final MetricsTableLoadingPlaceholderThemeData
       metricsTableLoadingPlaceholderTheme;
 
+  /// A theme for the metrics table header in the loading status.
   final MetricsTableLoadingPlaceholderThemeData
       metricsTableHeaderLoadingPlaceholderTheme;
 
