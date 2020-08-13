@@ -77,8 +77,8 @@ void main() {
           ));
 
           final paddingWidget = tester.widget<Padding>(
-            find.descendant(
-              of: find.byType(ShimmerContainer),
+            find.ancestor(
+              of: find.byType(ClipRRect),
               matching: find.byType(Padding),
             ),
           );
@@ -88,7 +88,7 @@ void main() {
       );
 
       testWidgets(
-        "delegates the given width to the container widget",
+        "applies the given width to the container widget",
         (tester) async {
           const width = 10.0;
 
@@ -104,7 +104,7 @@ void main() {
       );
 
       testWidgets(
-        "delegates the given height to the container widget",
+        "applies the given height to the container widget",
         (tester) async {
           const height = 11.0;
 
@@ -120,7 +120,7 @@ void main() {
       );
 
       testWidgets(
-        "delegates the given shimmer color to the shimmer widget",
+        "applies the given shimmer color to the shimmer widget",
         (tester) async {
           const color = Colors.red;
 
@@ -148,7 +148,7 @@ void main() {
       );
 
       testWidgets(
-        "delegates the given duration to the shimmer widget",
+        "applies the given duration to the shimmer widget",
         (tester) async {
           const duration = Duration(seconds: 2);
 
@@ -163,7 +163,7 @@ void main() {
       );
 
       testWidgets(
-        "delegates the given direction to the shimmer widget",
+        "applies the given direction to the shimmer widget",
         (tester) async {
           const direction = ShimmerDirection.fromLeftToRight();
 
@@ -178,7 +178,7 @@ void main() {
       );
 
       testWidgets(
-        "delegates the border radius to the clip rect widget",
+        "applies the border radius to the clip rect widget",
         (tester) async {
           final borderRadius = BorderRadius.circular(10.0);
 
@@ -193,7 +193,7 @@ void main() {
       );
 
       testWidgets(
-        "delegates the given enabled parameter to the shimmer widget",
+        "applies the given enabled parameter to the shimmer widget",
         (tester) async {
           const enabled = false;
 

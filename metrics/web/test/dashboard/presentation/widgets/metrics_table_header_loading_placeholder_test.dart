@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:metrics/base/presentation/widgets/shimmer_container.dart';
-import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_header_theme_data.dart';
-import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/project_metrics_table_theme_data.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_loading_placeholder_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_header_loading_placeholder.dart';
 
@@ -14,11 +13,10 @@ void main() {
     const shimmerColor = Colors.red;
 
     const themeData = MetricsThemeData(
-      projectMetricsTableTheme: ProjectMetricsTableThemeData(
-        metricsTableHeaderTheme: MetricsTableHeaderThemeData(
-          loadingBackgroundColor: loadingBackgroundColor,
-          shimmerColor: shimmerColor,
-        ),
+      metricsTableHeaderLoadingPlaceholderTheme:
+          MetricsTableLoadingPlaceholderThemeData(
+        backgroundColor: loadingBackgroundColor,
+        shimmerColor: shimmerColor,
       ),
     );
 
@@ -26,7 +24,8 @@ void main() {
       "applies the shimmer color from the metrics theme to the shimmer container widget",
       (tester) async {
         await tester.pumpWidget(
-          const _MetricsTableHeaderLoadingPlaceholderTestbed(themeData: themeData),
+          const _MetricsTableHeaderLoadingPlaceholderTestbed(
+              themeData: themeData),
         );
 
         final shimmerContainer = tester.widget<ShimmerContainer>(
@@ -41,7 +40,8 @@ void main() {
       "applies the loading background color from the metrics theme to the shimmer container widget",
       (tester) async {
         await tester.pumpWidget(
-          const _MetricsTableHeaderLoadingPlaceholderTestbed(themeData: themeData),
+          const _MetricsTableHeaderLoadingPlaceholderTestbed(
+              themeData: themeData),
         );
 
         final shimmerContainer = tester.widget<ShimmerContainer>(

@@ -8,6 +8,7 @@ import 'package:metrics/common/presentation/metrics_theme/model/dropdown_theme_d
 import 'package:metrics/common/presentation/metrics_theme/model/login_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metric_widget_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_circle_percentage_theme_data.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_loading_placeholder_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/project_metrics_table_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_build_status/theme_data/project_build_status_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/toggle_theme_data.dart';
@@ -84,6 +85,12 @@ class MetricsThemeData {
   /// A theme for the user menu popup.
   final UserMenuThemeData userMenuTheme;
 
+  final MetricsTableLoadingPlaceholderThemeData
+      metricsTableLoadingPlaceholderTheme;
+
+  final MetricsTableLoadingPlaceholderThemeData
+      metricsTableHeaderLoadingPlaceholderTheme;
+
   /// Creates the [MetricsThemeData].
   const MetricsThemeData({
     MetricCirclePercentageThemeData metricCirclePercentageThemeData,
@@ -105,6 +112,9 @@ class MetricsThemeData {
     ProjectBuildStatusThemeData projectBuildStatusTheme,
     ToggleThemeData toggleTheme,
     UserMenuThemeData userMenuTheme,
+    MetricsTableLoadingPlaceholderThemeData metricsTableLoadingPlaceholderTheme,
+    MetricsTableLoadingPlaceholderThemeData
+        metricsTableHeaderLoadingPlaceholderTheme,
   })  : metricCirclePercentageThemeData = metricCirclePercentageThemeData ??
             const MetricCirclePercentageThemeData(),
         inactiveWidgetTheme = inactiveWidgetTheme ?? _defaultWidgetThemeData,
@@ -137,7 +147,13 @@ class MetricsThemeData {
         projectBuildStatusTheme =
             projectBuildStatusTheme ?? const ProjectBuildStatusThemeData(),
         toggleTheme = toggleTheme ?? const ToggleThemeData(),
-        userMenuTheme = userMenuTheme ?? const UserMenuThemeData();
+        userMenuTheme = userMenuTheme ?? const UserMenuThemeData(),
+        metricsTableLoadingPlaceholderTheme =
+            metricsTableLoadingPlaceholderTheme ??
+                const MetricsTableLoadingPlaceholderThemeData(),
+        metricsTableHeaderLoadingPlaceholderTheme =
+            metricsTableHeaderLoadingPlaceholderTheme ??
+                const MetricsTableLoadingPlaceholderThemeData();
 
   /// Creates the new instance of the [MetricsThemeData] based on current instance.
   ///
@@ -163,6 +179,9 @@ class MetricsThemeData {
     ProjectBuildStatusThemeData projectBuildStatusTheme,
     ToggleThemeData toggleTheme,
     UserMenuThemeData userMenuTheme,
+    MetricsTableLoadingPlaceholderThemeData metricsTableLoadingPlaceholderTheme,
+    MetricsTableLoadingPlaceholderThemeData
+        metricsTableHeaderLoadingPlaceholderTheme,
   }) {
     return MetricsThemeData(
       metricCirclePercentageThemeData: metricCirclePercentageThemeData ??
@@ -192,6 +211,12 @@ class MetricsThemeData {
           projectBuildStatusTheme ?? this.projectBuildStatusTheme,
       toggleTheme: toggleTheme ?? this.toggleTheme,
       userMenuTheme: userMenuTheme ?? this.userMenuTheme,
+      metricsTableLoadingPlaceholderTheme:
+          metricsTableLoadingPlaceholderTheme ??
+              this.metricsTableLoadingPlaceholderTheme,
+      metricsTableHeaderLoadingPlaceholderTheme:
+          metricsTableHeaderLoadingPlaceholderTheme ??
+              this.metricsTableHeaderLoadingPlaceholderTheme,
     );
   }
 }

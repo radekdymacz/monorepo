@@ -9,9 +9,7 @@ class MetricsTableLoadingPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = MetricsTheme.of(context)
-        .projectMetricsTableTheme
-        .projectMetricsTileTheme;
+    final theme = MetricsTheme.of(context).metricsTableLoadingPlaceholderTheme;
 
     return LayoutBuilder(
       builder: (_, constraints) {
@@ -21,7 +19,7 @@ class MetricsTableLoadingPlaceholder extends StatelessWidget {
             height: _itemHeight,
             padding: const EdgeInsets.only(bottom: 4.0),
             shimmerColor: theme.shimmerColor,
-            color: theme.loadingBackgroundColor,
+            color: theme.backgroundColor,
             borderRadius: BorderRadius.circular(2.0),
           ),
         );

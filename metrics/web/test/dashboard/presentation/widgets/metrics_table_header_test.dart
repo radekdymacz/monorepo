@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:metrics/base/presentation/widgets/shimmer_container.dart';
 import 'package:metrics/common/presentation/metrics_theme/config/dimensions_config.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_header_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
@@ -8,6 +7,7 @@ import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/th
 import 'package:metrics/dashboard/presentation/state/project_metrics_notifier.dart';
 import 'package:metrics/dashboard/presentation/strings/dashboard_strings.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_header.dart';
+import 'package:metrics/dashboard/presentation/widgets/metrics_table_loading_header.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_row.dart';
 import 'package:mockito/mockito.dart';
 
@@ -75,21 +75,16 @@ void main() {
     );
 
     testWidgets(
-      "displays loading placeholders insted of header titles if project metrics is loading",
+      "displays the metrics table loading header if project metrics is loading",
       (tester) async {
         final notifier = ProjectMetricsNotifierMock();
-        when(notifier.projectMetricsIsLoading).thenReturn(true);
+        when(notifier.isMetricsLoading).thenReturn(true);
 
         await tester.pumpWidget(_DashboardTableHeaderTestbed(
           metricsNotifier: notifier,
         ));
 
-        expect(find.text(DashboardStrings.performance), findsNothing);
-        expect(find.text(DashboardStrings.builds), findsNothing);
-        expect(find.text(DashboardStrings.stability), findsNothing);
-        expect(find.text(DashboardStrings.coverage), findsNothing);
-        expect(find.text(DashboardStrings.lastBuilds), findsNothing);
-        expect(find.byType(ShimmerContainer), findsWidgets);
+        expect(find.byType(MetricsTableLoadingHeader), findsOneWidget);
       },
     );
 

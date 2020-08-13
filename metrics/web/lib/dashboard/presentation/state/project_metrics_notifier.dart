@@ -70,17 +70,19 @@ class ProjectMetricsNotifier extends ChangeNotifier {
   ProjectGroupDropdownItemViewModel get selectedProjectGroup =>
       _selectedProjectGroup;
 
-  /// Determines the project metrics loading status.
-  bool get projectMetricsIsLoading {
+  /// Determines the metrics loading status.
+  bool get isMetricsLoading {
     final List<ProjectMetricsTileViewModel> projectMetrics =
         _projectMetrics?.values?.toList();
 
     if (projectMetrics == null) return true;
 
-    return projectMetrics.every((projectMetric) {
+    return projectMetrics.any((projectMetric) {
       return projectMetric.buildResultMetrics == null ||
           projectMetric.performanceSparkline == null ||
-          projectMetric.buildNumberMetric == null;
+          projectMetric.buildNumberMetric == null ||
+          projectMetric.coverage == null ||
+          projectMetric.stability == null;
     });
   }
 

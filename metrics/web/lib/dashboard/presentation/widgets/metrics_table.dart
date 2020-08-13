@@ -34,7 +34,7 @@ class MetricsTable extends StatelessWidget {
                   final projects =
                       projectsMetricsNotifier.projectsMetricsTileViewModels;
 
-                  if (projectsMetricsNotifier.projectMetricsIsLoading) {
+                  if (projectsMetricsNotifier.isMetricsLoading) {
                     return MetricsTableLoadingPlaceholder();
                   }
 

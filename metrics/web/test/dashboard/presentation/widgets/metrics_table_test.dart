@@ -57,7 +57,7 @@ void main() {
       (WidgetTester tester) async {
         const errorMessage = 'Unknown error';
         final metricsNotifier = ProjectMetricsNotifierMock();
-        when(metricsNotifier.projectMetricsIsLoading).thenReturn(false);
+        when(metricsNotifier.isMetricsLoading).thenReturn(false);
         when(metricsNotifier.projectsErrorMessage).thenReturn(errorMessage);
 
         await mockNetworkImagesFor(() {
@@ -106,7 +106,7 @@ void main() {
         const String projectNameFilter = 'some project';
         const projectsMetricsTileViewModels = <ProjectMetricsTileViewModel>[];
 
-        when(metricsNotifier.projectMetricsIsLoading).thenReturn(false);
+        when(metricsNotifier.isMetricsLoading).thenReturn(false);
         when(metricsNotifier.projectNameFilter).thenReturn(projectNameFilter);
         when(metricsNotifier.projectsMetricsTileViewModels)
             .thenReturn(projectsMetricsTileViewModels);
@@ -241,7 +241,7 @@ void main() {
       "displays loading placeholders insted of project metrics if the metrics are null",
       (WidgetTester tester) async {
         final metricsNotifier = ProjectMetricsNotifierMock();
-        when(metricsNotifier.projectMetricsIsLoading).thenReturn(true);
+        when(metricsNotifier.isMetricsLoading).thenReturn(true);
         when(metricsNotifier.projectsMetricsTileViewModels).thenReturn(null);
 
         await mockNetworkImagesFor(() {

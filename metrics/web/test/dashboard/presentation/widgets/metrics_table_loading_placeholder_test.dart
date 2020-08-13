@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:metrics/base/presentation/widgets/shimmer_container.dart';
-import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/project_metrics_table_theme_data.dart';
-import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/project_metrics_tile_theme_data.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_loading_placeholder_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_loading_placeholder.dart';
 
@@ -16,11 +15,10 @@ void main() {
     const shimmerColor = Colors.red;
 
     const themeData = MetricsThemeData(
-      projectMetricsTableTheme: ProjectMetricsTableThemeData(
-        projectMetricsTileTheme: ProjectMetricsTileThemeData(
-          loadingBackgroundColor: loadingBackgroundColor,
-          shimmerColor: shimmerColor,
-        ),
+      metricsTableLoadingPlaceholderTheme:
+          MetricsTableLoadingPlaceholderThemeData(
+        backgroundColor: loadingBackgroundColor,
+        shimmerColor: shimmerColor,
       ),
     );
 

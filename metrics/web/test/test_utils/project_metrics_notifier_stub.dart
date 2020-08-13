@@ -76,5 +76,5 @@ class ProjectMetricsNotifierStub extends ChangeNotifier
   String get projectNameFilter => null;
 
   @override
-  bool get projectMetricsIsLoading => false;
+  bool get isMetricsLoading => false;
 }

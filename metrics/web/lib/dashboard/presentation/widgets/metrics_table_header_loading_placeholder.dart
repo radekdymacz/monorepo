@@ -7,15 +7,14 @@ import 'package:metrics/common/presentation/metrics_theme/widgets/metrics_theme.
 class MetricsTableHeaderLoadingPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = MetricsTheme.of(context)
-        .projectMetricsTableTheme
-        .metricsTableHeaderTheme;
+    final theme =
+        MetricsTheme.of(context).metricsTableHeaderLoadingPlaceholderTheme;
 
     return ShimmerContainer(
       shimmerColor: theme.shimmerColor,
       height: 18.0,
       borderRadius: BorderRadius.circular(9.0),
-      color: theme.loadingBackgroundColor,
+      color: theme.backgroundColor,
     );
   }
 }

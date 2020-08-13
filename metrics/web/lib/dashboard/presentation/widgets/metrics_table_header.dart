@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:metrics/base/presentation/widgets/loading_builder.dart';
 import 'package:metrics/common/presentation/metrics_theme/widgets/metrics_theme.dart';
 import 'package:metrics/dashboard/presentation/state/project_metrics_notifier.dart';
 import 'package:metrics/dashboard/presentation/strings/dashboard_strings.dart';
-import 'package:metrics/dashboard/presentation/widgets/metrics_table_header_loading_placeholder.dart';
+import 'package:metrics/dashboard/presentation/widgets/metrics_table_loading_header.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_row.dart';
 import 'package:provider/provider.dart';
 
@@ -23,36 +22,18 @@ class MetricsTableHeader extends StatelessWidget {
       textAlign: TextAlign.center,
       style: theme.textStyle,
       child: Selector<ProjectMetricsNotifier, bool>(
-        selector: (_, state) => state.projectMetricsIsLoading,
+        selector: (_, state) => state.isMetricsLoading,
         builder: (_, isLoading, __) {
+          if (isLoading) return MetricsTableLoadingHeader();
+
           return MetricsTableRow(
             status: Container(),
             name: Container(),
-            buildResults: LoadingBuilder(
-              isLoading: isLoading,
-              builder: (_) => const Text(DashboardStrings.lastBuilds),
-              loadingPlaceholder: MetricsTableHeaderLoadingPlaceholder(),
-            ),
-            performance: LoadingBuilder(
-              isLoading: isLoading,
-              builder: (_) => const Text(DashboardStrings.performance),
-              loadingPlaceholder: MetricsTableHeaderLoadingPlaceholder(),
-            ),
-            buildNumber: LoadingBuilder(
-              isLoading: isLoading,
-              builder: (_) => const Text(DashboardStrings.builds),
-              loadingPlaceholder: MetricsTableHeaderLoadingPlaceholder(),
-            ),
-            stability: LoadingBuilder(
-              isLoading: isLoading,
-              builder: (_) => const Text(DashboardStrings.stability),
-              loadingPlaceholder: MetricsTableHeaderLoadingPlaceholder(),
-            ),
-            coverage: LoadingBuilder(
-              isLoading: isLoading,
-              builder: (_) => const Text(DashboardStrings.coverage),
-              loadingPlaceholder: MetricsTableHeaderLoadingPlaceholder(),
-            ),
+            buildResults: const Text(DashboardStrings.lastBuilds),
+            performance: const Text(DashboardStrings.performance),
+            buildNumber: const Text(DashboardStrings.builds),
+            stability: const Text(DashboardStrings.stability),
+            coverage: const Text(DashboardStrings.coverage),
           );
         },
       ),
