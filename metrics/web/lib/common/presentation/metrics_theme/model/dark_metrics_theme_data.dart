@@ -46,7 +46,9 @@ class DarkMetricsThemeData extends MetricsThemeData {
   static const Color _loginOptionHoverColor = Color(0xFFe5e5e5);
   static const Color _loginOptionTextColor = Color(0xFF757575);
   static const Color _tileBorderColor = Color(0xFF0e0d0d);
+  static const Color _tileLoadingBackgroundColor = Color(0xFF242425);
   static const Color _tableHeaderColor = Color(0xFF79858b);
+  static const Color _tableHeaderLoadingBackgroundColor = Color(0xFF363537);
   static const Color _metricsLightGrey = Color(0xFFDCDCE5);
   static const Color _sparklineStrokeColor = Color(0xFFDCDCE5);
   static const Color _sparklineTextColor = Color(0xFFD7D7E5);
@@ -261,6 +263,8 @@ class DarkMetricsThemeData extends MetricsThemeData {
           ),
           projectMetricsTableTheme: const ProjectMetricsTableThemeData(
             metricsTableHeaderTheme: MetricsTableHeaderThemeData(
+              loadingBackgroundColor: _tableHeaderLoadingBackgroundColor,
+              shimmerColor: ColorConfig.focusedBorderColor,
               textStyle: TextStyle(
                 color: _tableHeaderColor,
                 fontWeight: FontWeight.w200,
@@ -268,6 +272,8 @@ class DarkMetricsThemeData extends MetricsThemeData {
             ),
             projectMetricsTileTheme: ProjectMetricsTileThemeData(
               backgroundColor: scaffoldColor,
+              loadingBackgroundColor: _tileLoadingBackgroundColor,
+              shimmerColor: _tileBorderColor,
               borderColor: _tileBorderColor,
               textStyle: TextStyle(fontSize: 24.0),
             ),
