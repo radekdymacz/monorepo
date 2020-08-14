@@ -17,8 +17,11 @@ void main() {
       DimensionsUtil.clearTestWindowSize();
     });
 
+    final isAMetricsTableHeaderPlaceholder =
+        isA<MetricsTableHeaderLoadingPlaceholder>();
+
     testWidgets(
-      "applies the loading placeholder to the build results parameter of the metrics table row",
+      "applies an empty container to the build status",
       (tester) async {
         await tester.pumpWidget(_MetricsTableLoadingHeaderTestbed());
 
@@ -28,13 +31,29 @@ void main() {
 
         expect(
           metricsTableRowWidget.buildResults,
-          isA<MetricsTableHeaderLoadingPlaceholder>(),
+          isAMetricsTableHeaderPlaceholder,
         );
       },
     );
 
     testWidgets(
-      "applies the loading placeholder to the performance parameter of the metrics table row",
+      "applies the build results placeholder",
+      (tester) async {
+        await tester.pumpWidget(_MetricsTableLoadingHeaderTestbed());
+
+        final metricsTableRowWidget = tester.widget<MetricsTableRow>(
+          find.byType(MetricsTableRow),
+        );
+
+        expect(
+          metricsTableRowWidget.buildResults,
+          isAMetricsTableHeaderPlaceholder,
+        );
+      },
+    );
+
+    testWidgets(
+      "applies the performance placeholder",
       (tester) async {
         await tester.pumpWidget(_MetricsTableLoadingHeaderTestbed());
 
@@ -44,13 +63,13 @@ void main() {
 
         expect(
           metricsTableRowWidget.performance,
-          isA<MetricsTableHeaderLoadingPlaceholder>(),
+          isAMetricsTableHeaderPlaceholder,
         );
       },
     );
 
     testWidgets(
-      "applies the loading placeholder to the build number parameter of the metrics table row",
+      "applies the build number placeholder",
       (tester) async {
         await tester.pumpWidget(_MetricsTableLoadingHeaderTestbed());
 
@@ -60,13 +79,13 @@ void main() {
 
         expect(
           metricsTableRowWidget.buildNumber,
-          isA<MetricsTableHeaderLoadingPlaceholder>(),
+          isAMetricsTableHeaderPlaceholder,
         );
       },
     );
 
     testWidgets(
-      "applies the loading placeholder to the stability parameter of the metrics table row",
+      "applies the stability placeholder",
       (tester) async {
         await tester.pumpWidget(_MetricsTableLoadingHeaderTestbed());
 
@@ -76,13 +95,13 @@ void main() {
 
         expect(
           metricsTableRowWidget.stability,
-          isA<MetricsTableHeaderLoadingPlaceholder>(),
+          isAMetricsTableHeaderPlaceholder,
         );
       },
     );
 
     testWidgets(
-      "applies the loading placeholder to the coverage parameter of the metrics table row",
+      "applies the coverage placeholder",
       (tester) async {
         await tester.pumpWidget(_MetricsTableLoadingHeaderTestbed());
 
@@ -92,7 +111,7 @@ void main() {
 
         expect(
           metricsTableRowWidget.coverage,
-          isA<MetricsTableHeaderLoadingPlaceholder>(),
+          isAMetricsTableHeaderPlaceholder,
         );
       },
     );

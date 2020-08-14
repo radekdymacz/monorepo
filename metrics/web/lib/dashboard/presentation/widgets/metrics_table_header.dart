@@ -5,8 +5,12 @@ import 'package:metrics/dashboard/presentation/widgets/metrics_table_title_heade
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_loading_header.dart';
 import 'package:provider/provider.dart';
 
-/// Widget that displays the header of the metrics table.
+/// A widget that displays the header of the metrics table.
+///
+/// Displays the [MetricsTableLoadingHeader] while metrics are loading,
+/// and [MetricsTableTitleHeader] when metrics are loaded.
 class MetricsTableHeader extends StatelessWidget {
+  /// Creates a new instance of the [MetricsTableHeader].
   const MetricsTableHeader({
     Key key,
   }) : super(key: key);

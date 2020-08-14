@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:metrics/dashboard/presentation/strings/dashboard_strings.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_row.dart';
 
-/// A widget that displays a metrics table header title.
+/// A widget that displays a metrics table header with metrics titles.
 class MetricsTableTitleHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
