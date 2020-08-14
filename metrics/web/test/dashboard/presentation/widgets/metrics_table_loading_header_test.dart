@@ -29,10 +29,20 @@ void main() {
           find.byType(MetricsTableRow),
         );
 
-        expect(
-          metricsTableRowWidget.buildResults,
-          isAMetricsTableHeaderPlaceholder,
+        expect(metricsTableRowWidget.status, isA<Container>());
+      },
+    );
+
+    testWidgets(
+      "applies an empty container to the project name",
+      (tester) async {
+        await tester.pumpWidget(_MetricsTableLoadingHeaderTestbed());
+
+        final metricsTableRowWidget = tester.widget<MetricsTableRow>(
+          find.byType(MetricsTableRow),
         );
+
+        expect(metricsTableRowWidget.name, isA<Container>());
       },
     );
 
