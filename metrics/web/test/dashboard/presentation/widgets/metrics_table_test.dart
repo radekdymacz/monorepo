@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:metrics/base/presentation/widgets/shimmer_container.dart';
 import 'package:metrics/common/presentation/strings/common_strings.dart';
 import 'package:metrics/dashboard/presentation/state/project_metrics_notifier.dart';
 import 'package:metrics/dashboard/presentation/strings/dashboard_strings.dart';
@@ -56,6 +57,7 @@ void main() {
       (WidgetTester tester) async {
         const errorMessage = 'Unknown error';
         final metricsNotifier = ProjectMetricsNotifierMock();
+        when(metricsNotifier.isMetricsLoading).thenReturn(false);
 
         when(metricsNotifier.projectsErrorMessage).thenReturn(errorMessage);
 
@@ -65,7 +67,7 @@ void main() {
           ));
         });
 
-        await tester.pumpAndSettle();
+        await tester.pump();
 
         final loadingErrorMessage =
             CommonStrings.getLoadingErrorMessage('$errorMessage');
@@ -105,6 +107,7 @@ void main() {
         const String projectNameFilter = 'some project';
         const projectsMetricsTileViewModels = <ProjectMetricsTileViewModel>[];
 
+        when(metricsNotifier.isMetricsLoading).thenReturn(false);
         when(metricsNotifier.projectNameFilter).thenReturn(projectNameFilter);
         when(metricsNotifier.projectsMetricsTileViewModels)
             .thenReturn(projectsMetricsTileViewModels);
@@ -232,6 +235,23 @@ void main() {
           coverageMetricWidgetCenter.dx,
           equals(coverageTitleCenter.dx),
         );
+      },
+    );
+
+    testWidgets(
+      "displays shimmer container widgets instead of project metrics tiles if the metrics are null",
+      (WidgetTester tester) async {
+        final metricsNotifier = ProjectMetricsNotifierMock();
+        when(metricsNotifier.isMetricsLoading).thenReturn(true);
+
+        await mockNetworkImagesFor(() {
+          return tester.pumpWidget(_MetricsTableTestbed(
+            metricsNotifier: metricsNotifier,
+          ));
+        });
+
+        expect(find.byType(ProjectMetricsTile), findsNothing);
+        expect(find.byType(ShimmerContainer), findsWidgets);
       },
     );
   });
