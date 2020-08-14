@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_header_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/project_metrics_table_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/project_metrics_tile_theme_data.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/shimmer_placeholder_theme_data.dart';
 import 'package:test/test.dart';
 
 // https://github.com/software-platform/monorepo/issues/140
@@ -21,6 +22,17 @@ void main() {
     );
 
     test(
+      "creates an instance with the default metrics table header placeholder theme if the given parameter is null",
+      () {
+        final themeData = ProjectMetricsTableThemeData(
+          metricsTableHeaderPlaceholderTheme: null,
+        );
+
+        expect(themeData.metricsTableHeaderPlaceholderTheme, isNotNull);
+      },
+    );
+
+    test(
       "creates an instance with the default project metrics tile theme if the given parameter is null",
       () {
         final themeData = ProjectMetricsTableThemeData(
@@ -31,9 +43,24 @@ void main() {
       },
     );
 
+    test(
+      "creates an instance with the default project metrics tile placeholder theme if the given parameter is null",
+      () {
+        final themeData = ProjectMetricsTableThemeData(
+          projectMetricsTilePlaceholderTheme: null,
+        );
+
+        expect(themeData.projectMetricsTilePlaceholderTheme, isNotNull);
+      },
+    );
+
     test("creates an instance with the given values", () {
       final headerTheme = MetricsTableHeaderThemeData(
         textStyle: TextStyle(color: Colors.red),
+      );
+
+      final headerPlaceholderTheme = ShimmerPlaceholderThemeData(
+        backgroundColor: Colors.red,
       );
 
       final tileTheme = ProjectMetricsTileThemeData(
@@ -42,13 +69,27 @@ void main() {
         backgroundColor: Colors.green,
       );
 
+      final tilePlaceholderTheme = ShimmerPlaceholderThemeData(
+        backgroundColor: Colors.green,
+      );
+
       final themeData = ProjectMetricsTableThemeData(
         metricsTableHeaderTheme: headerTheme,
+        metricsTableHeaderPlaceholderTheme: headerPlaceholderTheme,
         projectMetricsTileTheme: tileTheme,
+        projectMetricsTilePlaceholderTheme: tilePlaceholderTheme,
       );
 
       expect(themeData.metricsTableHeaderTheme, equals(headerTheme));
+      expect(
+        themeData.metricsTableHeaderPlaceholderTheme,
+        equals(headerPlaceholderTheme),
+      );
       expect(themeData.projectMetricsTileTheme, equals(tileTheme));
+      expect(
+        themeData.projectMetricsTilePlaceholderTheme,
+        equals(tilePlaceholderTheme),
+      );
     });
   });
 }

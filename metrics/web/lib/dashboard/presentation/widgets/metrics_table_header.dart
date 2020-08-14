@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:metrics/common/presentation/metrics_theme/widgets/metrics_theme.dart';
 import 'package:metrics/dashboard/presentation/state/project_metrics_notifier.dart';
-import 'package:metrics/dashboard/presentation/strings/dashboard_strings.dart';
+import 'package:metrics/dashboard/presentation/widgets/metrics_table_title_header.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_loading_header.dart';
-import 'package:metrics/dashboard/presentation/widgets/metrics_table_row.dart';
 import 'package:provider/provider.dart';
 
 /// Widget that displays the header of the metrics table.
@@ -26,15 +25,7 @@ class MetricsTableHeader extends StatelessWidget {
         builder: (_, isLoading, __) {
           if (isLoading) return MetricsTableLoadingHeader();
 
-          return MetricsTableRow(
-            status: Container(),
-            name: Container(),
-            buildResults: const Text(DashboardStrings.lastBuilds),
-            performance: const Text(DashboardStrings.performance),
-            buildNumber: const Text(DashboardStrings.builds),
-            stability: const Text(DashboardStrings.stability),
-            coverage: const Text(DashboardStrings.coverage),
-          );
+          return MetricsTableTitleHeader();
         },
       ),
     );

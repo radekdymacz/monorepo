@@ -7,8 +7,9 @@ import 'package:metrics/common/presentation/metrics_theme/widgets/metrics_theme.
 class MetricsTableHeaderLoadingPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme =
-        MetricsTheme.of(context).metricsTableHeaderLoadingPlaceholderTheme;
+    final theme = MetricsTheme.of(context)
+        .projectMetricsTableTheme
+        .metricsTableHeaderPlaceholderTheme;
 
     return ShimmerContainer(
       shimmerColor: theme.shimmerColor,

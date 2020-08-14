@@ -9,7 +9,9 @@ class MetricsTableLoadingPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = MetricsTheme.of(context).metricsTableLoadingPlaceholderTheme;
+    final theme = MetricsTheme.of(context)
+        .projectMetricsTableTheme
+        .projectMetricsTilePlaceholderTheme;
 
     return LayoutBuilder(
       builder: (_, constraints) {

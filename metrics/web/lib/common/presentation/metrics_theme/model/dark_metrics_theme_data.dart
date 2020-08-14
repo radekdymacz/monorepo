@@ -12,7 +12,7 @@ import 'package:metrics/common/presentation/metrics_theme/model/login_theme_data
 import 'package:metrics/common/presentation/metrics_theme/model/metric_widget_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_circle_percentage_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_header_theme_data.dart';
-import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_loading_placeholder_theme_data.dart';
+import 'package:metrics/common/presentation/metrics_theme/model/shimmer_placeholder_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/project_metrics_table_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/project_metrics_tile_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
@@ -269,10 +269,18 @@ class DarkMetricsThemeData extends MetricsThemeData {
                 fontWeight: FontWeight.w200,
               ),
             ),
+            metricsTableHeaderPlaceholderTheme: ShimmerPlaceholderThemeData(
+              backgroundColor: _tileLoadingBackgroundColor,
+              shimmerColor: _tileBorderColor,
+            ),
             projectMetricsTileTheme: ProjectMetricsTileThemeData(
               backgroundColor: scaffoldColor,
               borderColor: _tileBorderColor,
               textStyle: TextStyle(fontSize: 24.0),
+            ),
+            projectMetricsTilePlaceholderTheme: ShimmerPlaceholderThemeData(
+              backgroundColor: _tableHeaderLoadingBackgroundColor,
+              shimmerColor: ColorConfig.focusedBorderColor,
             ),
           ),
           buildNumberScorecardTheme: const ScorecardThemeData(
@@ -323,16 +331,6 @@ class DarkMetricsThemeData extends MetricsThemeData {
               fontSize: 16.0,
               height: 1.0,
             ),
-          ),
-          metricsTableLoadingPlaceholderTheme:
-              const MetricsTableLoadingPlaceholderThemeData(
-            backgroundColor: _tileLoadingBackgroundColor,
-            shimmerColor: _tileBorderColor,
-          ),
-          metricsTableHeaderLoadingPlaceholderTheme:
-              const MetricsTableLoadingPlaceholderThemeData(
-            backgroundColor: _tableHeaderLoadingBackgroundColor,
-            shimmerColor: ColorConfig.focusedBorderColor,
           ),
         );
 }

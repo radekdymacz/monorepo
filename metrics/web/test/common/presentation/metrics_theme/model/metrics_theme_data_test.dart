@@ -10,7 +10,6 @@ import 'package:metrics/common/presentation/metrics_theme/model/login_theme_data
 import 'package:metrics/common/presentation/metrics_theme/model/metric_widget_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_circle_percentage_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_header_theme_data.dart';
-import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/metrics_table_loading_placeholder_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/project_build_status/theme_data/project_build_status_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/toggle_theme_data.dart';
@@ -50,8 +49,6 @@ void main() {
         expect(themeData.projectBuildStatusTheme, isNotNull);
         expect(themeData.userMenuTheme, isNotNull);
         expect(themeData.toggleTheme, isNotNull);
-        expect(themeData.metricsTableHeaderLoadingPlaceholderTheme, isNotNull);
-        expect(themeData.metricsTableLoadingPlaceholderTheme, isNotNull);
       },
     );
 
@@ -78,8 +75,6 @@ void main() {
           projectBuildStatusTheme: null,
           toggleTheme: null,
           userMenuTheme: null,
-          metricsTableHeaderLoadingPlaceholderTheme: null,
-          metricsTableLoadingPlaceholderTheme: null,
         );
 
         expect(themeData.metricCirclePercentageThemeData, isNotNull);
@@ -101,8 +96,6 @@ void main() {
         expect(themeData.projectBuildStatusTheme, isNotNull);
         expect(themeData.toggleTheme, isNotNull);
         expect(themeData.userMenuTheme, isNotNull);
-        expect(themeData.metricsTableLoadingPlaceholderTheme, isNotNull);
-        expect(themeData.metricsTableHeaderLoadingPlaceholderTheme, isNotNull);
       },
     );
 
@@ -200,16 +193,6 @@ void main() {
           activeColor: Colors.green,
         );
 
-        const metricsTableLoadingPlaceholderTheme =
-            MetricsTableLoadingPlaceholderThemeData(
-          backgroundColor: Colors.red,
-        );
-
-        const metricsTableHeaderLoadingPlaceholderTheme =
-            MetricsTableLoadingPlaceholderThemeData(
-          backgroundColor: Colors.red,
-        );
-
         const themeData = MetricsThemeData();
 
         final copiedTheme = themeData.copyWith(
@@ -232,10 +215,6 @@ void main() {
           projectBuildStatusTheme: projectBuildStatusTheme,
           toggleTheme: toggleTheme,
           userMenuTheme: userMenuTheme,
-          metricsTableLoadingPlaceholderTheme:
-              metricsTableLoadingPlaceholderTheme,
-          metricsTableHeaderLoadingPlaceholderTheme:
-              metricsTableHeaderLoadingPlaceholderTheme,
         );
 
         expect(
@@ -281,14 +260,6 @@ void main() {
         );
         expect(copiedTheme.toggleTheme, equals(toggleTheme));
         expect(copiedTheme.userMenuTheme, equals(userMenuTheme));
-        expect(
-          copiedTheme.metricsTableLoadingPlaceholderTheme,
-          equals(metricsTableLoadingPlaceholderTheme),
-        );
-        expect(
-          copiedTheme.metricsTableHeaderLoadingPlaceholderTheme,
-          equals(metricsTableHeaderLoadingPlaceholderTheme),
-        );
       },
     );
 
@@ -369,14 +340,6 @@ void main() {
         expect(
           themeData.userMenuTheme,
           equals(copiedTheme.userMenuTheme),
-        );
-        expect(
-          themeData.metricsTableLoadingPlaceholderTheme,
-          equals(copiedTheme.metricsTableLoadingPlaceholderTheme),
-        );
-        expect(
-          themeData.metricsTableHeaderLoadingPlaceholderTheme,
-          equals(copiedTheme.metricsTableHeaderLoadingPlaceholderTheme),
         );
       },
     );

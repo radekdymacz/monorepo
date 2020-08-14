@@ -30,14 +30,6 @@ void main() {
         expect(darkMetricsThemeData.projectBuildStatusTheme, isNotNull);
         expect(darkMetricsThemeData.toggleTheme, isNotNull);
         expect(darkMetricsThemeData.userMenuTheme, isNotNull);
-        expect(
-          darkMetricsThemeData.metricsTableLoadingPlaceholderTheme,
-          isNotNull,
-        );
-        expect(
-          darkMetricsThemeData.metricsTableHeaderLoadingPlaceholderTheme,
-          isNotNull,
-        );
       },
     );
   });

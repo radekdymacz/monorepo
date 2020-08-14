@@ -238,11 +238,10 @@ void main() {
     );
 
     testWidgets(
-      "displays loading placeholders insted of project metrics if the metrics are null",
+      "displays shimmer container widgets instead of project metrics tiles if the metrics are null",
       (WidgetTester tester) async {
         final metricsNotifier = ProjectMetricsNotifierMock();
         when(metricsNotifier.isMetricsLoading).thenReturn(true);
-        when(metricsNotifier.projectsMetricsTileViewModels).thenReturn(null);
 
         await mockNetworkImagesFor(() {
           return tester.pumpWidget(_MetricsTableTestbed(

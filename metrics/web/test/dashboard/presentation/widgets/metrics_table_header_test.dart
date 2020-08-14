@@ -5,8 +5,8 @@ import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/th
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_theme_data.dart';
 import 'package:metrics/common/presentation/metrics_theme/model/metrics_table/theme_data/project_metrics_table_theme_data.dart';
 import 'package:metrics/dashboard/presentation/state/project_metrics_notifier.dart';
-import 'package:metrics/dashboard/presentation/strings/dashboard_strings.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_header.dart';
+import 'package:metrics/dashboard/presentation/widgets/metrics_table_title_header.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_loading_header.dart';
 import 'package:metrics/dashboard/presentation/widgets/metrics_table_row.dart';
 import 'package:mockito/mockito.dart';
@@ -39,38 +39,16 @@ void main() {
     );
 
     testWidgets(
-      "displays the performance header",
+      "displays the metrics table header title if project metrics is not loading",
       (tester) async {
-        await tester.pumpWidget(_DashboardTableHeaderTestbed());
+        final notifier = ProjectMetricsNotifierMock();
+        when(notifier.isMetricsLoading).thenReturn(false);
 
-        expect(find.text(DashboardStrings.performance), findsOneWidget);
-      },
-    );
+        await tester.pumpWidget(_DashboardTableHeaderTestbed(
+          metricsNotifier: notifier,
+        ));
 
-    testWidgets(
-      "displays the builds header",
-      (tester) async {
-        await tester.pumpWidget(_DashboardTableHeaderTestbed());
-
-        expect(find.text(DashboardStrings.builds), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      "displays the stability header",
-      (tester) async {
-        await tester.pumpWidget(_DashboardTableHeaderTestbed());
-
-        expect(find.text(DashboardStrings.stability), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      "displays the coverage header",
-      (tester) async {
-        await tester.pumpWidget(_DashboardTableHeaderTestbed());
-
-        expect(find.text(DashboardStrings.coverage), findsOneWidget);
+        expect(find.byType(MetricsTableTitleHeader), findsOneWidget);
       },
     );
 
